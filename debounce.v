@@ -21,20 +21,44 @@
 
 
 module debounce(
-    input clk,
-    input btn_in,
-    input btn_out
+        input clk,
+        input btn_in_1,
+        input btn_in_2,
+        output btn_out_1,
+        output btn_out_2
     );
     
-    reg r1,r2,r3;
+    reg [4:0] cnt0, cnt1;
+    reg iv0 = 0,iv1 = 0;
+    reg out0, out1;
     
-    always@(posedge clk) 
-    begin 
-    r1 <= btn_in;
-    r2 <= r1;
-    r3 <= r2;
+    always@(posedge(clk))
+    begin
+        if(btn_in_1 == iv0)
+        begin
+            if (cnt0 == 19)
+                out0 <= btn_in_1;
+            else
+                cnt0 <= cnt0+1;
+          end
+        else begin
+            cnt0 <= 4'b00000;
+            iv0 <= btn_in_1;
+        end
+        if (btn_in_2 == iv1)begin
+            if (cnt1 == 19)
+                out1 <= btn_in_2;
+            else
+                cnt1 <= cnt1+1;
+        end
+        else
+        begin
+            cnt1 <= 4'b00000;
+            iv1 <= btn_in_2;
+        end
     end
   
- assign btn_out = r3;
+    assign btn_out_1 = out0;
+    assign btn_out_2 = out1;
    
 endmodule

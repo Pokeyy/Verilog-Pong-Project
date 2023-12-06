@@ -22,7 +22,7 @@
 module pong_graph(
     input clk,  
     input reset,    
-    input [1:0] btn,        // btn[0] = up, btn[1] = down
+    input [31:0] btn,        // btn[0] = up, btn[1] = down
     input gra_still,        // still graphics - newgame, game over states
     input video_on,
     input [9:0] x,
@@ -153,9 +153,9 @@ module pong_graph(
         y_pad_next = y_pad_reg;     // no move
         
         if(refresh_tick)
-            if(btn[1] & (y_pad_b < (B_WALL_T - 1 - PAD_VELOCITY)))
+            if((btn[15:0] == 16'hE072) & (y_pad_b < (B_WALL_T - 1 - PAD_VELOCITY)))
                 y_pad_next = y_pad_reg + PAD_VELOCITY;  // move down
-            else if(btn[0] & (y_pad_t > (T_WALL_B - 1 - PAD_VELOCITY)))
+            else if((btn[15:0] == 16'hE075) & (y_pad_t > (T_WALL_B - 1 - PAD_VELOCITY)))
                 y_pad_next = y_pad_reg - PAD_VELOCITY;  // move up
     end
     

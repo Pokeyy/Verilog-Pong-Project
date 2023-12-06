@@ -22,7 +22,9 @@
 module pong_top(
     input clk,              // 100MHz
     input reset,            // btnR
-    input [1:0] btn,        // btnD, btnU
+    input key_clk,          // PS2_CLK
+    input key_data,         // PS2_DATA
+    output key_uart,        // UART_RXD_OUT
     output hsync,           // to VGA Connector
     output vsync,           // to VGA Connector
     output [11:0] rgb       // to DAC, to VGA Connector
@@ -46,6 +48,7 @@ module pong_top(
     reg gra_still, d_inc, d_clr, timer_start;
     wire timer_tick, timer_up;
     reg [1:0] ball_reg, ball_next;
+    wire [31:0] keyboard_key; //[7:0] are current key
     
     
     // Module Instantiations
@@ -72,7 +75,7 @@ module pong_top(
     pong_graph graph_unit(
         .clk(clk),
         .reset(reset),
-        .btn(btn),
+        .btn(keyboard_key),
         .gra_still(gra_still),
         .video_on(w_vid_on),
         .x(w_x),
@@ -99,7 +102,13 @@ module pong_top(
         .dig0(dig0),
         .dig1(dig1));
        
-    
+    keyboard keyboard_unit(
+        .keyboard_clk(clk),
+        .keyboard_kclk(key_clk),
+        .keyboard_kdata(key_data),
+        .keyboard_uart_rxd(key_uart),
+        .keyboard_keycodeout(keyboard_key));
+        
     // FSMD state and registers
     always @(posedge clk or posedge reset)
         if(reset) begin
@@ -129,7 +138,7 @@ module pong_top(
                 ball_next = 2'b11;          // three balls
                 d_clr = 1'b1;               // clear score
                 
-                if(btn != 2'b00) begin      // button pressed
+                if((keyboard_key[15:0] != 16'hF075) & (keyboard_key[15:0] != 16'hF072) & (keyboard_key[15:0] != 0)) begin      // button pressed
                     state_next = play;
                     ball_next = ball_reg - 1;    
                 end
@@ -154,7 +163,7 @@ module pong_top(
             end
             
             newball: // wait for 2 sec and until button pressed
-            if(timer_up && (btn != 2'b00))
+            if(timer_up && ((keyboard_key[15:0] != 16'hF075) & (keyboard_key[15:0] != 16'hF072) & (keyboard_key[15:0] != 0)))
                 state_next = play;
                 
             over:   // wait 2 sec to display game over
