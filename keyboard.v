@@ -25,7 +25,7 @@ module keyboard(
         input keyboard_kclk,        // PS2_CLK
         input keyboard_kdata,       // PS2_DATA
         output keyboard_uart_rxd,   // UART_RXD_OUT
-        output [31:0] keyboard_keycodeout
+        output [3:0] keyboard_out
     );
     
     
@@ -36,6 +36,7 @@ module keyboard(
     reg [3:0] keyboard_cnt;
     reg [31:0] keyboard_keycode;
     reg keyboard_flag;
+    reg [3:0] keyboard_out_tmp = 0;
     
     always@(posedge keyboard_clk)
     begin
@@ -90,6 +91,30 @@ module keyboard(
             keyboard_dataprev <= keyboard_datacur;
         end
     end
+    
+    always@(*)
+    begin
+        //up arrow
+        if(keyboard_keycode[15:0] == 16'hE075)
+            keyboard_out_tmp[0] <= 1;
+        else if(keyboard_keycode[15:0] == 16'hF075)
+            keyboard_out_tmp[0] <= 0;
+        //down arrow
+        if(keyboard_keycode[15:0] == 16'hE072)
+            keyboard_out_tmp[1] <= 1;
+        else if(keyboard_keycode[15:0] == 16'hF072)
+            keyboard_out_tmp[1] <= 0;
+        //w
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1D)
+            keyboard_out_tmp[2] <= 1;
+        else if(keyboard_keycode[15:0] == 16'hF01D)
+            keyboard_out_tmp[2] <= 0;
+        //s
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1B)
+            keyboard_out_tmp[3] <= 1;
+        else if(keyboard_keycode[15:0] == 16'hF01B)
+            keyboard_out_tmp[3] <= 0;
+    end
         
-    assign keyboard_keycodeout = keyboard_keycode;
+    assign keyboard_out = keyboard_out_tmp;
 endmodule

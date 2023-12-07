@@ -48,7 +48,7 @@ module pong_top(
     reg gra_still, d_inc, d_clr, timer_start;
     wire timer_tick, timer_up;
     reg [1:0] ball_reg, ball_next;
-    wire [31:0] keyboard_key; //[7:0] are current key
+    wire [3:0] keyboard_key; //[3:2] are left player; [1:0] are right player
     
     
     // Module Instantiations
@@ -107,7 +107,7 @@ module pong_top(
         .keyboard_kclk(key_clk),
         .keyboard_kdata(key_data),
         .keyboard_uart_rxd(key_uart),
-        .keyboard_keycodeout(keyboard_key));
+        .keyboard_out(keyboard_key));
         
     // FSMD state and registers
     always @(posedge clk or posedge reset)
@@ -138,7 +138,7 @@ module pong_top(
                 ball_next = 2'b11;          // three balls
                 d_clr = 1'b1;               // clear score
                 
-                if((keyboard_key[15:0] != 16'hF075) & (keyboard_key[15:0] != 16'hF072) & (keyboard_key[15:0] != 0)) begin      // button pressed
+                if((keyboard_key[1:0] != 0) || (keyboard_key[3:2] != 0)) begin      // button pressed
                     state_next = play;
                     ball_next = ball_reg - 1;    
                 end
@@ -163,7 +163,7 @@ module pong_top(
             end
             
             newball: // wait for 2 sec and until button pressed
-            if(timer_up && ((keyboard_key[15:0] != 16'hF075) & (keyboard_key[15:0] != 16'hF072) & (keyboard_key[15:0] != 0)))
+            if(timer_up && ((keyboard_key[1:0] != 0) || (keyboard_key[3:2] != 0)))
                 state_next = play;
                 
             over:   // wait 2 sec to display game over
