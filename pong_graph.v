@@ -180,6 +180,7 @@ module pong_graph(
                 y_l_pad_next = y_l_pad_reg + PAD_VELOCITY;  // move down
             else if((btn[2] == 1) & (y_l_pad_t > (T_WALL_B - 1 - PAD_VELOCITY)))
                 y_l_pad_next = y_l_pad_reg - PAD_VELOCITY;  // move up
+                
             // Right
             if((btn[1] == 1) & (y_r_pad_b < (B_WALL_T - 1 - PAD_VELOCITY)))
                 y_r_pad_next = y_r_pad_reg + PAD_VELOCITY;  // move down

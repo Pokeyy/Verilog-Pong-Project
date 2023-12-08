@@ -25,7 +25,8 @@ module keyboard(
         input keyboard_kclk,        // PS2_CLK
         input keyboard_kdata,       // PS2_DATA
         output keyboard_uart_rxd,   // UART_RXD_OUT
-        output [3:0] keyboard_out
+        output [3:0] keyboard_out,
+        output [31:0] keyboard_code
     );
     
     
@@ -82,7 +83,7 @@ module keyboard(
     
     always @(posedge keyboard_flag)
     begin //write keyboard data into an array
-        if (keyboard_dataprev != keyboard_datacur)
+        if ((keyboard_dataprev != keyboard_datacur) || (keyboard_keycode[15:8] == 8'hF0))
         begin
             keyboard_keycode[31:24] <= keyboard_keycode[23:16];
             keyboard_keycode[23:16] <= keyboard_keycode[15:8];
@@ -95,14 +96,14 @@ module keyboard(
     always@(*)
     begin
         //up arrow
-        if(keyboard_keycode[15:0] == 16'hE075)
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h75)
             keyboard_out_tmp[0] <= 1;
         else if(keyboard_keycode[15:0] == 16'hF075)
             keyboard_out_tmp[0] <= 0;
         //down arrow
-        if(keyboard_keycode[15:0] == 16'hE072)
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h73)
             keyboard_out_tmp[1] <= 1;
-        else if(keyboard_keycode[15:0] == 16'hF072)
+        else if(keyboard_keycode[15:0] == 16'hF073)
             keyboard_out_tmp[1] <= 0;
         //w
         if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1D)
@@ -117,4 +118,5 @@ module keyboard(
     end
         
     assign keyboard_out = keyboard_out_tmp;
+    assign keyboard_code = keyboard_keycode;
 endmodule

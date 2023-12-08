@@ -20,14 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module pong_top(
-    input clk,              // 100MHz
-    input reset,            // btnR
-    input key_clk,          // PS2_CLK
-    input key_data,         // PS2_DATA
-    output key_uart,        // UART_RXD_OUT
-    output hsync,           // to VGA Connector
-    output vsync,           // to VGA Connector
-    output [11:0] rgb       // to DAC, to VGA Connector
+        input clk,              // 100MHz
+        input reset,            // btnR
+        input key_clk,          // PS2_CLK
+        input key_data,         // PS2_DATA
+        output key_uart,        // UART_RXD_OUT
+        output hsync,           // to VGA Connector
+        output vsync,           // to VGA Connector
+        output [11:0] rgb,       // to DAC, to VGA Connector
+        output [6:0] SEG,
+        output [7:0] AN,
+        output DP 
     );
     
     // state declarations for 4 states
@@ -51,6 +54,7 @@ module pong_top(
     wire timer_tick, timer_up;
     reg [1:0] ball_reg, ball_next, d_inc;
     wire [3:0] keyboard_key; //[3:2] are left player; [1:0] are right player
+    wire [31:0] keycode;
     
     
     // Module Instantiations
@@ -113,7 +117,18 @@ module pong_top(
         .keyboard_kclk(key_clk),
         .keyboard_kdata(key_data),
         .keyboard_uart_rxd(key_uart),
-        .keyboard_out(keyboard_key));
+        .keyboard_out(keyboard_key),
+        .keyboard_code(keycode)
+        );
+    
+    SEG_7 SEG_7_UNIT(
+        .x(keycode),
+        .clk(clk),
+        .seg(SEG),
+        .an(AN),
+        .dp(DP)
+	 );
+	 
         
     // FSMD state and registers
     always @(posedge clk or posedge reset)
@@ -153,10 +168,10 @@ module pong_top(
             play: begin
                 gra_still = 1'b0;   // animated screen
                 
-                if(hit[0])
+                if(hit == 2'b01)
                     d_inc[0] = 1'b1;   // increment score
                     
-                else if(hit[1])
+                else if(hit == 2'b10)
                     d_inc[1] = 1'b1;   // increment score
                 
                 else if(miss) begin
