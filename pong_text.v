@@ -22,7 +22,7 @@
 module pong_text(
     input clk,
     input [1:0] ball,
-    input [3:0] dig0, dig1,
+    input [3:0] dig0, dig1, dig2, dig3,
     input [9:0] x, y,
     output [3:0] text_on,
     output reg [11:0] text_rgb
@@ -48,28 +48,42 @@ module pong_text(
    // - scale to 16 by 32 text size
    // - line 1, 16 chars: "Score: dd Ball: d"
    // ---------------------------------------------------------------------------
-   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 16);
+   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 5'h1F);
    //assign score_on = (y[9:5] == 0) && (x[9:4] < 16);
    assign row_addr_s = y[4:1];
    assign bit_addr_s = x[3:1];
    always @*
-    case(x[7:4])
-        4'h0 : char_addr_s = 7'h53;     // S
-        4'h1 : char_addr_s = 7'h43;     // C
-        4'h2 : char_addr_s = 7'h4F;     // O
-        4'h3 : char_addr_s = 7'h52;     // R
-        4'h4 : char_addr_s = 7'h45;     // E
-        4'h5 : char_addr_s = 7'h3A;     // :
-        4'h6 : char_addr_s = {3'b011, dig1};    // tens digit
-        4'h7 : char_addr_s = {3'b011, dig0};    // ones digit
-        4'h8 : char_addr_s = 7'h00;     //
-        4'h9 : char_addr_s = 7'h00;     //
-        4'hA : char_addr_s = 7'h42;     // B
-        4'hB : char_addr_s = 7'h41;     // A
-        4'hC : char_addr_s = 7'h4c;     // L
-        4'hD : char_addr_s = 7'h4c;     // L
-        4'hE : char_addr_s = 7'h3A;     // :
-        4'hF : char_addr_s = {5'b01100, ball};
+    case(x[8:4])
+        5'h0 : char_addr_s = 7'h53;     // S
+        5'h1 : char_addr_s = 7'h43;     // C
+        5'h2 : char_addr_s = 7'h4F;     // O
+        5'h3 : char_addr_s = 7'h52;     // R
+        5'h4 : char_addr_s = 7'h45;     // E
+        5'h5 : char_addr_s = 7'h00;     // 
+        5'h6 : char_addr_s = 7'h4C;     // L
+        5'h7 : char_addr_s = 7'h3A;     // :
+        5'h8 : char_addr_s = {3'b011, dig1};    // tens digit
+        5'h9 : char_addr_s = {3'b011, dig0};    // ones digit
+        5'hA : char_addr_s = 7'h00;     //
+        5'hB : char_addr_s = 7'h00;     //
+        5'hC : char_addr_s = 7'h42;     // B
+        5'hD : char_addr_s = 7'h41;     // A
+        5'hE : char_addr_s = 7'h4c;     // L
+        5'hF : char_addr_s = 7'h4c;     // L
+        5'h10 : char_addr_s = 7'h3A;    // :
+        5'h12 : char_addr_s = {5'b01100, ball};
+        5'h13 : char_addr_s = 7'h00;     //
+        5'h14 : char_addr_s = 7'h00;     //
+        5'h15 : char_addr_s = 7'h53;     // S
+        5'h16 : char_addr_s = 7'h43;     // C
+        5'h17 : char_addr_s = 7'h4F;     // O
+        5'h18 : char_addr_s = 7'h52;     // R
+        5'h19 : char_addr_s = 7'h45;     // E
+        5'h1A : char_addr_s = 7'h00;     // 
+        5'h1B : char_addr_s = 7'h52;     // R
+        5'h1C : char_addr_s = 7'h3A;     // :
+        5'h1D : char_addr_s = {3'b011, dig3};    // tens digit
+        5'h1E : char_addr_s = {3'b011, dig2};    // ones digit
     endcase
     
     // --------------------------------------------------------------------------
