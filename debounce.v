@@ -20,31 +20,36 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module debounce(
-        input clk,
-        input btn_in_1,
-        input btn_in_2,
-        output btn_out_1,
-        output btn_out_2
+module debounce(                    // Dual input/output debouncer
+        input clk,                  // System clock, used for polling
+        input btn_in_1,             // Input signal 1
+        input btn_in_2,             // Input signal 2
+        output btn_out_1,           // Output signal 1
+        output btn_out_2            // Output signal 2
     );
     
-    reg [4:0] cnt0, cnt1;
-    reg iv0 = 0,iv1 = 0;
-    reg out0, out1;
+    reg [4:0] cnt0, cnt1;           // Counter registers used to create buffer
+    reg iv0 = 0,iv1 = 0;            // Temp input registers
+    reg out0, out1;                 // Output registers
+
+	// Debouncer: Uses a buffer; output only matches input after a small buffer of time to debounce
+	// The state of the input is stored into a temp reg
+	// Input state must match the stored state in the temp reg long enough for the buffer to end,
+	// otherwise the buffer will reset and the output register will not be updated
     
     always@(posedge(clk))
     begin
-        if(btn_in_1 == iv0)
-        begin
-            if (cnt0 == 19)
-                out0 <= btn_in_1;
+        if(btn_in_1 == iv0)         // If the button input state stays stable and matches
+        begin                       // the currently stored state in the temp input register,
+            if (cnt0 == 19)         // then the buffer will count continously until the buffer reaches its limit.
+                out0 <= btn_in_1;   // The output register will then be updated with the current input state.
             else
                 cnt0 <= cnt0+1;
           end
-        else begin
-            cnt0 <= 4'b00000;
-            iv0 <= btn_in_1;
-        end
+        else begin                  // If the button input state does not match the current state in the temp reg,
+            cnt0 <= 5'b00000;       // then update the temp reg with the current input state.
+            iv0 <= btn_in_1;        // If the button input state does not stay stable, then the temp reg will be updated again
+        end                         // and the buffer will be reset, with no change to the output register.
         if (btn_in_2 == iv1)begin
             if (cnt1 == 19)
                 out1 <= btn_in_2;
@@ -53,7 +58,7 @@ module debounce(
         end
         else
         begin
-            cnt1 <= 4'b00000;
+            cnt1 <= 5'b00000;
             iv1 <= btn_in_2;
         end
     end

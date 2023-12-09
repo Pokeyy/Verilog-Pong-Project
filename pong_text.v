@@ -37,7 +37,7 @@ module pong_text(
     wire [2:0] bit_addr_s, bit_addr_l, bit_addr_r, bit_addr_o;
     wire [7:0] ascii_word;
     wire ascii_bit, score_on, logo_on, rule_on, over_on;
-    wire [7:0] rule_rom_addr;
+    wire [5:0] rule_rom_addr;
     
    // instantiate ascii rom
    ascii_rom ascii_unit(.clk(clk), .addr(rom_addr), .data(ascii_word));
