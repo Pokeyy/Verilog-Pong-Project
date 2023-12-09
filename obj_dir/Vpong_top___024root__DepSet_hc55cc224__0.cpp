@@ -44,21 +44,29 @@ void Vpong_top___024root___eval_triggers__act(Vpong_top___024root* vlSelf) {
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__top_clk__0))));
     vlSelf->__VactTriggered.set(3U, ((IData)(vlSelf->pix_clk) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pix_clk__0))));
-    vlSelf->__VactTriggered.set(4U, ((~ (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0)) 
+    vlSelf->__VactTriggered.set(4U, ((IData)(vlSelf->pong_top__DOT__d_inc) 
+                                     != (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_inc__0)));
+    vlSelf->__VactTriggered.set(5U, ((~ (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0)) 
                                      & (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0)));
-    vlSelf->__VactTriggered.set(5U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag) 
+    vlSelf->__VactTriggered.set(6U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0))));
-    vlSelf->__VactTriggered.set(6U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp) 
+    vlSelf->__VactTriggered.set(7U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0))));
     vlSelf->__Vtrigprevexpr___TOP__reset__0 = vlSelf->reset;
     vlSelf->__Vtrigprevexpr___TOP__top_clk__0 = vlSelf->top_clk;
     vlSelf->__Vtrigprevexpr___TOP__pix_clk__0 = vlSelf->pix_clk;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_inc__0 
+        = vlSelf->pong_top__DOT__d_inc;
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0;
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag;
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp;
+    if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VactDidInit))))) {
+        vlSelf->__VactDidInit = 1U;
+        vlSelf->__VactTriggered.set(4U, 1U);
+    }
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {
         Vpong_top___024root___dump_triggers__act(vlSelf);

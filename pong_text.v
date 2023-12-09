@@ -48,7 +48,7 @@ module pong_text(
    // - scale to 16 by 32 text size
    // - line 1, 16 chars: "Score: dd Ball: d"
    // ---------------------------------------------------------------------------
-   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 5'h1F);
+   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 6'h1F);
    //assign score_on = (y[9:5] == 0) && (x[9:4] < 16);
    assign row_addr_s = y[4:1];
    assign bit_addr_s = x[3:1];
@@ -84,6 +84,7 @@ module pong_text(
         5'h1C : char_addr_s = 7'h3A;     // :
         5'h1D : char_addr_s = {3'b011, dig3};    // tens digit
         5'h1E : char_addr_s = {3'b011, dig2};    // ones digit
+        default: char_addr_s = 7'h00;
     endcase
     
     // --------------------------------------------------------------------------

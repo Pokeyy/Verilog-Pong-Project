@@ -30,7 +30,20 @@ module score_counter(
     output [3:0] dig2,
     output [3:0] dig3
     );
-    
+
+    // reg [1:0] d_inc_buffer = 2'b00;
+    // reg [9:0] counter;
+    // always @ (posedge clk)
+    // begin
+    //     if (d_inc_buffer != d_inc)
+    //     begin
+    //         counter = counter - 1;
+    //         if (counter == 0) d_inc_buffer <= d_inc;
+    //     end 
+    // end
+
+    // if (counter == 0) d_inc_buffer <= d_inc;
+    // else counter = counter + 1;
     
     reg [3:0] r_dig0 = 0, r_dig1 = 0, dig0_next = 0, dig1_next = 0; // transistion state 
     reg [3:0] r_dig2 = 0, r_dig3 = 0, dig2_next = 0, dig3_next = 0; // transistion state 
@@ -55,7 +68,7 @@ module score_counter(
         end        
     end
     // next state logic 
-    always @(posedge clk) 
+    always @(d_inc) 
     begin
         dig0_next <= r_dig0;
         dig1_next <= r_dig1;
@@ -85,12 +98,12 @@ module score_counter(
        
         else if (d_inc == 2'b10)
         begin
-            if (r_dig2 == 9) //overflow at dig0 place
+            if (r_dig2 == 9) //overflow at dig2 place
                 dig2_next <= 0;
             else 
                 dig2_next <= r_dig2 + 1;
              
-            if((r_dig3 == 9) & (r_dig2 == 9)) // overflow at digit1 place
+            if((r_dig3 == 9) & (r_dig2 == 9)) // overflow at digit3 place
                 dig3_next <= 0;
             else if(r_dig2 == 9)
                 dig3_next <= r_dig3 + 1;

@@ -42,12 +42,14 @@ module pong_top(
     // signal declaration
     reg [1:0] state_reg, state_next;
     wire [9:0] w_x, w_y;
-    wire w_vid_on, graph_on, w_pix_clk, hit, miss;
+    wire w_vid_on, graph_on, w_pix_clk, miss;
+    wire [1:0] hit;                                 // 2-bit hit flag, hit[0] is for left, hit[1] is for right
+    reg [1:0]  d_inc;                               // 2-bit increment score flag, d_inc[0] is for left, d_inc[1] is right
     wire [3:0] text_on;
     wire [11:0] graph_rgb, text_rgb;
     reg [11:0] rgb_reg, rgb_next;
-    wire [3:0] dig0, dig1;
-    reg gra_still, d_inc, d_clr, timer_start;
+    wire [3:0] dig0, dig1, dig2, dig3;              // 4-bit BCD for score counters; {dig1, dig0} is left, {dig3, dig2} is right
+    reg gra_still, d_clr, timer_start;
     wire timer_tick, timer_up;
     reg [1:0] ball_reg, ball_next;
     wire [3:0] keyboard_key; //[3:2] are left player; [1:0] are right player
@@ -68,6 +70,8 @@ module pong_top(
         .y(w_y),
         .dig0(dig0),
         .dig1(dig1),
+        .dig2(dig2),
+        .dig3(dig3),
         .ball(ball_reg),
         .text_on(text_on),
         .text_rgb(text_rgb));
@@ -100,14 +104,18 @@ module pong_top(
         .d_inc(d_inc),
         .d_clr(d_clr),
         .dig0(dig0),
-        .dig1(dig1));
+        .dig1(dig1),
+        .dig2(dig2),
+        .dig3(dig3));
        
     keyboard keyboard_unit(
         .keyboard_clk(top_clk),
         .keyboard_kclk(key_clk),
         .keyboard_kdata(key_data),
         .keyboard_uart_rxd(key_uart),
-        .keyboard_out(keyboard_key));
+        .keyboard_out(keyboard_key),
+        .keyboard_code()
+    );
         
     // FSMD state and registers
     always @(posedge top_clk or posedge reset)
@@ -135,7 +143,7 @@ module pong_top(
     always @ (posedge top_clk) begin
         gra_still <= 1'b1;
         timer_start <= 1'b0;
-        d_inc <= 1'b0;
+        d_inc <= 2'b0;
         d_clr <= 1'b0;
         state_next <= state_reg;
         ball_next <= ball_reg;
@@ -154,8 +162,10 @@ module pong_top(
             play: begin
                 gra_still <= 1'b0;   // animated screen
                 
-                if(hit)
-                    d_inc <= 1'b1;   // increment score
+                if(hit[0])
+                    d_inc[0] <= 1'b1;   // increment score
+                else if (hit[1])
+                    d_inc[1] <= 1'b1;
                 
                 else if(miss) begin
                     if(ball_reg == 0)

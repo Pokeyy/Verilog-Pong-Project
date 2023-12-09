@@ -120,7 +120,8 @@ public:
 		// }
 
 		m_core->top_clk = 1;
-		// m_core->pix_clk = 1;
+		eval();
+		m_core->pix_clk = 1;
 		eval();
 		// if(m_clkcount >= 8){
 		// 	if(m_core->pix_clk == 1) m_core->pix_clk = 0;
@@ -131,7 +132,7 @@ public:
 
 		// // if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount));
 		m_core->top_clk = 0;
-		// m_core->pix_clk = 0;
+		m_core->pix_clk = 0;
 
 		// eval();
 		// // if (m_trace) m_trace->dump((vluint64_t)(10*m_tickcount-2));
@@ -218,6 +219,16 @@ public:
 
 	virtual void down(void) {
 		m_core->btn = (m_core->btn | 0b0010);
+		// tick();
+	}
+
+	virtual void w(void) {
+		m_core->btn = (m_core->btn | 0b0100);
+		// tick();
+	}
+
+	virtual void s(void) {
+		m_core->btn = (m_core->btn | 0b1000);
 		// tick();
 	}
 

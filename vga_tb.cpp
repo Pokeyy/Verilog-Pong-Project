@@ -72,15 +72,15 @@ public:
 			return true;
 
 		TESTB<Vpong_top>::tick();
-		if (m_clkcount >= 3)
-		{
-			TESTB<Vpong_top>::pix_tick();
+		// if (m_clkcount >= 3)
+		// {
+		// 	TESTB<Vpong_top>::pix_tick();
 			m_vga((m_core->vsync)?1:0, (m_core->hsync)?1:0,
 				((m_core->rgb) & 0xF00) >> 4,
 				(m_core->rgb) & 0x0F0,
 				((m_core->rgb) << 4));
-			m_clkcount = 0;
-		} 	else m_clkcount++;
+		// 	m_clkcount = 0;
+		// } 	else m_clkcount++;
 
 
 		// if (m_clkcount >= 3)
@@ -98,7 +98,7 @@ public:
 	}
 
 	bool	on_tick(void) {
-		for(int i=0; i<10000; i++)
+		for(int i=0; i<1000; i++)
 			clk_tick();
 		return true;
 	}
@@ -110,16 +110,23 @@ bool VGAWIN::onKeyPress(GdkEventKey* event)
 {
     //std::cout << std::hex << event->keyval << ' ' << event->hardware_keycode << ' ' << event->state << std::endl;
 	switch (event->keyval) {
-		case GDK_KEY_Up:
+		case GDK_KEY_Up: // right up
 			//printf("up");
 			tb->up();
 			break;
-		case GDK_KEY_Down:
+		case GDK_KEY_Down: // right down
 			//printf("down");
 			tb->down();
 			break;
+		case GDK_KEY_w:
+			tb->w();
+			break;
+		case GDK_KEY_s:
+			tb->s();
+			break;
+
 		default:
-			//printf("default");
+			// printf(tb->m_vga->m_core->);
 			break;
 	}
 

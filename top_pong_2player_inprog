@@ -127,7 +127,7 @@ module pong_top(
         end
     
     // FSMD next state logic
-    always @* begin
+    always @ (posedge clk) begin
         gra_still = 1'b1;
         timer_start = 1'b0;
         d_inc = 1'b0;

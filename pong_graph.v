@@ -32,9 +32,10 @@ module pong_graph(
     output reg [1:0] hit,
     output reg [11:0] graph_rgb
     );
-    
+    parameter SPEED_MULT = 1;
+
     // maximum x, y values in display area
-    parameter X_MIN = 0;
+    parameter X_MIN = 1;
     parameter X_MAX = 639;
     parameter Y_MAX = 479;
     
@@ -53,10 +54,11 @@ module pong_graph(
     
     
     
-    // PADDLE
+    // PADDLES
+    parameter PAD_HEIGHT = 72;  // 72 pixels high
+    // paddle moving velocity when a button is pressed
+    parameter PAD_VELOCITY = 3 * SPEED_MULT;     // change to speed up or slow down paddle movement 
     // LEFT pad boundaries
-//    parameter L_PAD_L = 36;    
-//    parameter L_PAD_R = 39;    // 4 pixels wide
     // paddle horizontal boundaries
     parameter X_L_PAD_L = 36;
     parameter X_L_PAD_R = 39;    // 4 pixels wide
@@ -65,18 +67,16 @@ module pong_graph(
     // register to track top boundary and buffer
     reg [9:0] y_l_pad_reg = 204;      // Paddle starting position
     reg [9:0] y_l_pad_next;
+
     // RIGHT pad boundaries
     // paddle horizontal boundaries
     parameter X_R_PAD_L = 600;
     parameter X_R_PAD_R = 603;    // 4 pixels wide
     // paddle vertical boundary signals
     wire [9:0] y_r_pad_t, y_r_pad_b;
-    parameter PAD_HEIGHT = 72;  // 72 pixels high
     // register to track top boundary and buffer
     reg [9:0] y_r_pad_reg = 204;      // Paddle starting position
     reg [9:0] y_r_pad_next;
-    // paddle moving velocity when a button is pressed
-    parameter PAD_VELOCITY = 3;     // change to speed up or slow down paddle movement
     
     
     // BALL
@@ -94,8 +94,8 @@ module pong_graph(
     reg [9:0] x_delta_reg, x_delta_next;
     reg [9:0] y_delta_reg, y_delta_next;
     // positive or negative ball velocity
-    parameter BALL_VELOCITY_POS = 2;    // ball speed positive pixel direction(down, right)
-    parameter BALL_VELOCITY_NEG = -2;   // ball speed negative pixel direction(up, left)
+    parameter BALL_VELOCITY_POS = 2 * SPEED_MULT;    // ball speed positive pixel direction(down, right)
+    parameter BALL_VELOCITY_NEG = -2 * SPEED_MULT;   // ball speed negative pixel direction(up, left)
     // round ball from square image
     wire [2:0] rom_addr, rom_col;   // 3-bit rom address and rom column
     reg [7:0] rom_data;             // data at current rom address
@@ -104,7 +104,7 @@ module pong_graph(
     
     // Register Control
     always @(posedge clk or posedge reset)
-        if(reset) begin
+        if(reset) begin                 // Reset ball and paddles to starting position
             y_l_pad_reg <= 204;
             y_r_pad_reg <= 204;
             x_ball_reg <= 0;
@@ -122,7 +122,7 @@ module pong_graph(
         end
     
     
-    // ball rom
+    // ball rom, used to render ball
     always @*
         case(rom_addr)
             3'b000 :    rom_data = 8'b00111100; //   ****  
@@ -213,8 +213,8 @@ module pong_graph(
                          (refresh_tick) ? y_ball_reg + y_delta_reg : y_ball_reg;
     
     // change ball direction after collision
-    always @* begin
-        hit = 2'b0;
+    always @ (posedge clk) begin
+        hit = 2'b00;
         miss = 1'b0;
         x_delta_next = x_delta_reg;
         y_delta_next = y_delta_reg;
@@ -233,19 +233,19 @@ module pong_graph(
 //        else if(x_ball_l <= L_PAD_R)           // reach left wall
 //            x_delta_next = BALL_VELOCITY_POS;   // move right
         
-        else if((X_L_PAD_R >= x_ball_r) && (x_ball_r >= X_L_PAD_L) &&
-                (y_l_pad_t <= y_ball_b) && (y_ball_t <= y_l_pad_b)) begin
+        else if((X_L_PAD_R+5 >= x_ball_r) && (x_ball_r >= X_L_PAD_L+5) &&               // Left paddle hit, if ball is between the left and right sides of paddle
+                (y_l_pad_t <= y_ball_b) && (y_ball_t <= y_l_pad_b)) begin           // and between top and bottom sides, then deflect
                     x_delta_next = BALL_VELOCITY_POS;
                     hit[0] = 1'b1; 
         end     
         
-        else if((X_R_PAD_L <= x_ball_r) && (x_ball_r <= X_R_PAD_R) &&
-                (y_r_pad_t <= y_ball_b) && (y_ball_t <= y_r_pad_b)) begin
+        else if((X_R_PAD_L <= x_ball_r) && (x_ball_r <= X_R_PAD_R) &&               // Left paddle hit, if ball is between the left and right sides of paddle
+                (y_r_pad_t <= y_ball_b) && (y_ball_t <= y_r_pad_b)) begin           // and between top and bottom sides, then deflect
                     x_delta_next = BALL_VELOCITY_NEG;
                     hit[1] = 1'b1;         
         end
         
-        else if((x_ball_r > X_MAX) | (x_ball_r < X_MIN))           //miss at right side of the screens
+        else if((x_ball_r > X_MAX) || (x_ball_r < X_MIN))           //miss at left and right side of the screens, past the paddles
             miss = 1'b1;
     end                    
     
