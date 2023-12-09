@@ -48,7 +48,7 @@ module score_counter(
         end        
     end
     // next state logic 
-    always @* 
+    always @(posedge clk or posedge reset) 
     begin
         dig0_next <= r_dig0;
         dig1_next <= r_dig1;
