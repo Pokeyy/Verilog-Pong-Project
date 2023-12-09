@@ -25,7 +25,8 @@ module keyboard(
         input keyboard_kclk,        // PS2_CLK
         input keyboard_kdata,       // PS2_DATA
         output keyboard_uart_rxd,   // UART_RXD_OUT
-        output [3:0] keyboard_out
+        output [3:0] keyboard_out,
+        output [31:0] keyboard_code
     );
     
     
@@ -82,7 +83,7 @@ module keyboard(
     
     always @(posedge keyboard_flag)
     begin                                                       //write keyboard data into an array
-        if (keyboard_dataprev != keyboard_datacur)              // If previously written-in data does not match new data, leftshift keyboard_keycode,
+        if ((keyboard_dataprev != keyboard_datacur) || (keyboard_keycode[15:8] == 8'hF0))              // If previously written-in data does not match new data, leftshift keyboard_keycode,
         begin                                                   // load current data into rightmost 8-bit of keyboard_keycode
             keyboard_keycode[31:24] <= keyboard_keycode[23:16]; // Leftmost 8-bit data is overwritten by second-leftmost
             keyboard_keycode[23:16] <= keyboard_keycode[15:8];  // Second-leftmost overwritten with third-leftmost
@@ -95,14 +96,14 @@ module keyboard(
     always@(posedge keyboard_clk)                               
     begin
         //up arrow
-        if(keyboard_keycode[15:0] == 16'hE075)                  // Keycode for up arrow
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h75)
             keyboard_out_tmp[0] <= 1;
         else if(keyboard_keycode[23:0] == 24'hE0F075)           // Keycode for up arrow release
             keyboard_out_tmp[0] <= 0;
         //down arrow
-        if(keyboard_keycode[15:0] == 16'hE072)                  // Keycode for down arrow
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h73)
             keyboard_out_tmp[1] <= 1;
-        else if(keyboard_keycode[23:0] == 24'hE0F072)           // Keycode for down arrow release
+        else if(keyboard_keycode[15:0] == 16'hF073)
             keyboard_out_tmp[1] <= 0;
         //w
         if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1D)   // If F0 release key signal is not found and W key is pressed
@@ -117,4 +118,5 @@ module keyboard(
     end
         
     assign keyboard_out = keyboard_out_tmp;
+    assign keyboard_code = keyboard_keycode;
 endmodule
