@@ -48,10 +48,10 @@ module pong_text(
    // - scale to 16(x) by 32(y) text size
    // - line 1, 16 chars: "Score: dd Ball: d"
    // ---------------------------------------------------------------------------
-   assign score_on = (y >= 32) && (y < 64) && (x[9:4] <); 6'h1F     // Render score if 32 <= y < 64 and x < 496 == 01 1111 ----
+   assign score_on = (y >= 32) && (y < 64) && (x[9:4] <= 6'h1F);     // Render score if 32 <= y < 64 and x < 496 == 01 1111 ----
    //assign score_on = (y[9:5] == 0) && (x[9:4] < 16);
-   assign row_addr_s = y[4:1];
-   assign bit_addr_s = x[3:1];
+   assign row_addr_s = y[4:1];          // 4-bit row address for ASCII ROM
+   assign bit_addr_s = x[3:1];          // 3-bit bit address for ASCII ROM
    always @*
     case(x[8:4])                        //      -1 1111 ---- 
         5'h0 : char_addr_s = 7'h53;     // S    
@@ -62,8 +62,8 @@ module pong_text(
         5'h5 : char_addr_s = 7'h00;     // 
         5'h6 : char_addr_s = 7'h4C;     // L
         5'h7 : char_addr_s = 7'h3A;     // :
-        5'h8 : char_addr_s = {3'b011, dig1};    // tens digit
-        5'h9 : char_addr_s = {3'b011, dig0};    // ones digit
+        5'h8 : char_addr_s = {3'h3, dig1};    // tens digit // 3'h3 is the start of the digits in the ASCII ROM
+        5'h9 : char_addr_s = {3'h3, dig0};    // ones digit
         5'hA : char_addr_s = 7'h00;     //
         5'hB : char_addr_s = 7'h00;     //
         5'hC : char_addr_s = 7'h42;     // B
@@ -82,22 +82,25 @@ module pong_text(
         5'h1A : char_addr_s = 7'h00;     // 
         5'h1B : char_addr_s = 7'h52;     // R
         5'h1C : char_addr_s = 7'h3A;     // :
-        5'h1D : char_addr_s = {3'b011, dig3};    // tens digit
-        5'h1E : char_addr_s = {3'b011, dig2};    // ones digit
+        5'h1D : char_addr_s = {3'h3, dig3};    // tens digit
+        5'h1E : char_addr_s = {3'h3, dig2};    // ones digit
         default: char_addr_s = 7'h00;
     endcase
     
+    // 5'h20 = 0 0000
+    // 5'h0  = 0 0000
+
     // --------------------------------------------------------------------------
     // logo region
     // - display logo "PONG" at top center
     // - used as background
     // - scale to 64 by 128 text size
     // --------------------------------------------------------------------------
-    assign logo_on = (y[9:7] == 2) && (3 <= x[9:6]) && (x[9:6] <= 6);
-    assign row_addr_l = y[6:3];
-    assign bit_addr_l = x[5:3];
+    assign logo_on = (y[9:7] == 2) && (3 <= x[9:6]) && (x[9:6] <= 6);           
+    assign row_addr_l = y[6:3];                 // 4-bit row address for ASCII ROM
+    assign bit_addr_l = x[5:3];                 // 3-bit bit address for ASCII ROM
     always @*
-        case(x[8:6])
+        case(x[8:6])                        // -x xx-- ----
             3'o3 :    char_addr_l = 7'h50; // P
             3'o4 :    char_addr_l = 7'h4F; // O
             3'o5 :    char_addr_l = 7'h4E; // N
@@ -114,8 +117,8 @@ module pong_text(
     //          up and down
     // --------------------------------------------------------------------------
     assign rule_on = (x[9:7] == 2) && (y[9:6] == 2);
-    assign row_addr_r = y[3:0];
-    assign bit_addr_r = x[2:0];
+    assign row_addr_r = y[3:0];                 // 4-bit row address for ASCII ROM
+    assign bit_addr_r = x[2:0];                 // 3-bit bit address for ASCII ROM
     assign rule_rom_addr = {y[5:4], x[6:3]};// 6-bit address, 2-bits used for y, 4-bits used for x; y[5:4] == 00 00xx 0000, x[9:6] == xx xx00 0000
     always @*                               // y = 
         case(rule_rom_addr)                 // Print character based on xy position
@@ -191,22 +194,22 @@ module pong_text(
     // --------------------------------------------------------------------------
     // game over region
     // - display "GAME OVER" at center
-    // - scale to 32 by 64 text size
+    // - scale to 32(x) by 64(y) text size
     // --------------------------------------------------------------------------
-    assign over_on = (y[9:6] == 3) && (5 <= x[9:5]) && (x[9:5] <= 13);  // y[9:6] == 3 == 00 1100 0000 == 192, x[9:5] <= 5 <= 00 1010 0000 <= 160, x[9:5] <= 13 <= 01 1010 0000 <= 416
-    assign row_addr_o = y[5:2];                                         // if x and y pos is between these values, then over_on == 1, render the GAME OVER text
+    assign over_on = (y[9:6] == 3) && (5 <= x[9:5]) && (x[9:5] <= 13);  // y[9:6] == 3 == 00 1100 0000 == 192, x[9:5] <= 5 <= 00 1010 0000 <= 160, x[9:5] <= 13 <= 01 1011 1111 <= 447
+    assign row_addr_o = y[5:2];                                         // if 160 <= x <= 447 and y pos == 192 is between these values, then over_on == 1, render the GAME OVER text
     assign bit_addr_o = x[4:2];
     always @*
-        case(x[8:5])
-            4'h5 : char_addr_o = 7'h47;     // G
-            4'h6 : char_addr_o = 7'h41;     // A
-            4'h7 : char_addr_o = 7'h4D;     // M
-            4'h8 : char_addr_o = 7'h45;     // E
-            4'h9 : char_addr_o = 7'h00;     //
-            4'hA : char_addr_o = 7'h4F;     // O
-            4'hB : char_addr_o = 7'h56;     // V
-            4'hC : char_addr_o = 7'h45;     // E
-            default : char_addr_o = 7'h52;  // R
+        case(x[8:5])                        // -x xxx- ---- 
+            4'h5 : char_addr_o = 7'h47;     // G    4'h5 = -0 101- ---- x-values 160 to 191; don't care about 9th bit since 
+            4'h6 : char_addr_o = 7'h41;     // A    4'h6 = -0 110- ---- x-values 192 to 223 
+            4'h7 : char_addr_o = 7'h4D;     // M    4'h7 = -0 111- ---- x-values 224 to 255
+            4'h8 : char_addr_o = 7'h45;     // E    4'h8 = -1 000- ---- x-values 256 to 287
+            4'h9 : char_addr_o = 7'h00;     //      4'h9 = -1 001- ---- x-values 288 to 319
+            4'hA : char_addr_o = 7'h4F;     // O    4'hA = -1 010- ---- x-values 320 to 351
+            4'hB : char_addr_o = 7'h56;     // V    4'hB = -1 011- ---- x-values 352 to 383
+            4'hC : char_addr_o = 7'h45;     // E    4'hC = -1 100- ---- x-values 384 to 415
+            default : char_addr_o = 7'h52;  // R    4'hD = -1 101- ---- to 4'hF = -1 111- ----, x-values to 416 to 447
         endcase
     
     // mux for ascii ROM addresses and rgb
@@ -218,7 +221,7 @@ module pong_text(
             row_addr = row_addr_s;
             bit_addr = bit_addr_s;
             if(ascii_bit)
-                text_rgb = 12'hFFF; // white
+                text_rgb = 12'hFFF; // white pixel
         end
         
         else if(rule_on) begin
@@ -226,7 +229,7 @@ module pong_text(
             row_addr = row_addr_r;
             bit_addr = bit_addr_r;
             if(ascii_bit)
-                text_rgb = 12'hFFF; // white
+                text_rgb = 12'hFFF; // white pixel
         end
         
         else if(logo_on) begin
@@ -234,7 +237,7 @@ module pong_text(
             row_addr = row_addr_l;
             bit_addr = bit_addr_l;
             if(ascii_bit)
-                text_rgb = 12'hFFF; // white
+                text_rgb = 12'hFFF; // white pixel
         end
         
         else begin // game over
@@ -242,7 +245,7 @@ module pong_text(
             row_addr = row_addr_o;
             bit_addr = bit_addr_o;
             if(ascii_bit)
-                text_rgb = 12'hFFF; // white
+                text_rgb = 12'hFFF; // white pixel
         end        
     end
     
