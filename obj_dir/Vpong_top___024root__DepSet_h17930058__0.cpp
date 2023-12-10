@@ -364,10 +364,11 @@ VL_INLINE_OPT void Vpong_top___024root___nba_sequent__TOP__0(Vpong_top___024root
     if ((((0xf0U != (0xffU & (vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode 
                               >> 8U))) & (0x73U == 
                                           (0xffU & vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode))) 
-         | (0xe073U == (0xffffU & vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode)))) {
+         | (0xe072U == (0xffffU & vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode)))) {
         vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp 
             = (2U | (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp));
-    } else if ((0xf073U == (0xffffU & vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode))) {
+    } else if (((0xf073U == (0xffffU & vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode)) 
+                | (0xf072U == (0xffffU & vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode)))) {
         vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp 
             = (0xdU & (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp));
     }

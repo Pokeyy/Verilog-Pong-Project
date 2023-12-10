@@ -22,8 +22,8 @@
 
 module ascii_rom(
 	input clk, 
-	input wire [10:0] addr,
-	output reg [7:0] data
+	input wire [10:0] addr,			// Input memory address
+	output reg [7:0] data			// Output character at specified memory address
 	);
 
 	(* rom_style = "block" *)	// Infer BRAM

@@ -45,16 +45,16 @@ module pong_text(
    // ---------------------------------------------------------------------------
    // score region
    // - display two-digit score and ball # on top left
-   // - scale to 16 by 32 text size
+   // - scale to 16(x) by 32(y) text size
    // - line 1, 16 chars: "Score: dd Ball: d"
    // ---------------------------------------------------------------------------
-   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 6'h1F);     // Render score if 32 <= y < 64 and x < 01 1111 xxxx == 496
+   assign score_on = (y >= 32) && (y < 64) && (x[9:4] <); 6'h1F     // Render score if 32 <= y < 64 and x < 496 == 01 1111 ----
    //assign score_on = (y[9:5] == 0) && (x[9:4] < 16);
    assign row_addr_s = y[4:1];
    assign bit_addr_s = x[3:1];
    always @*
-    case(x[8:4])
-        5'h0 : char_addr_s = 7'h53;     // S
+    case(x[8:4])                        //      -1 1111 ---- 
+        5'h0 : char_addr_s = 7'h53;     // S    
         5'h1 : char_addr_s = 7'h43;     // C
         5'h2 : char_addr_s = 7'h4F;     // O
         5'h3 : char_addr_s = 7'h52;     // R
@@ -251,5 +251,7 @@ module pong_text(
     // ascii ROM interface                                      // rule_on:  flag to render rules                               
     assign rom_addr = {char_addr, row_addr};                    // over_on:  flag to render GAME OVER text                          
     assign ascii_bit = ascii_word[~bit_addr];
-      
-endmodule
+                                                                // [6:0] char_addr + [3:0] row_addr == 11 bits
+                                                                // char_addr is used to reference the start of a character; 2^7 = 128 different characters
+                                                                // row_addr is used to reference the rows of binary used to render each character; there are 2^4 = 16 rows per character
+endmodule                                                       // Each character is 16 pixels (16 rows) tall, 8 pixels wide by default
