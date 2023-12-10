@@ -214,39 +214,39 @@ module pong_graph(
     
     // change ball direction after collision
     always @ (posedge clk) begin
-        hit = 2'b00;
-        miss = 1'b0;
-        x_delta_next = x_delta_reg;
-        y_delta_next = y_delta_reg;
+        hit <= 2'b00;
+        miss <= 1'b0;
+        x_delta_next <= x_delta_reg;
+        y_delta_next <= y_delta_reg;
         
         if(gra_still) begin
-            x_delta_next = BALL_VELOCITY_NEG;
-            y_delta_next = BALL_VELOCITY_POS;
+            x_delta_next <= BALL_VELOCITY_NEG;
+            y_delta_next <= BALL_VELOCITY_POS;
         end
         
         else if(y_ball_t < T_WALL_B)                   // reach top
-            y_delta_next = BALL_VELOCITY_POS;   // move down
+            y_delta_next <= BALL_VELOCITY_POS;   // move down
         
         else if(y_ball_b > (B_WALL_T))         // reach bottom wall
-            y_delta_next = BALL_VELOCITY_NEG;   // move up
+            y_delta_next <= BALL_VELOCITY_NEG;   // move up
         
 //        else if(x_ball_l <= L_PAD_R)           // reach left wall
 //            x_delta_next = BALL_VELOCITY_POS;   // move right
         
         else if((X_L_PAD_R+5 >= x_ball_r) && (x_ball_r >= X_L_PAD_L+5) &&               // Left paddle hit, if ball is between the left and right sides of paddle
                 (y_l_pad_t <= y_ball_b) && (y_ball_t <= y_l_pad_b)) begin           // and between top and bottom sides, then deflect
-                    x_delta_next = BALL_VELOCITY_POS;
-                    hit[0] = 1'b1; 
+                    x_delta_next <= BALL_VELOCITY_POS;
+                    hit[0] <= 1'b1; 
         end     
         
         else if((X_R_PAD_L <= x_ball_r) && (x_ball_r <= X_R_PAD_R) &&               // Left paddle hit, if ball is between the left and right sides of paddle
                 (y_r_pad_t <= y_ball_b) && (y_ball_t <= y_r_pad_b)) begin           // and between top and bottom sides, then deflect
-                    x_delta_next = BALL_VELOCITY_NEG;
-                    hit[1] = 1'b1;         
+                    x_delta_next <= BALL_VELOCITY_NEG;
+                    hit[1] <= 1'b1;         
         end
         
         else if((x_ball_r > X_MAX) || (x_ball_r < X_MIN))           //miss at left and right side of the screens, past the paddles
-            miss = 1'b1;
+            miss <= 1'b1;
     end                    
     
     // output status signal for graphics 

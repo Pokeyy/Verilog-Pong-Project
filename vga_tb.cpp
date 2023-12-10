@@ -74,7 +74,7 @@ public:
 		TESTB<Vpong_top>::tick();
 		// if (m_clkcount >= 3)
 		// {
-		// 	TESTB<Vpong_top>::pix_tick();
+			// TESTB<Vpong_top>::pix_tick();
 			m_vga((m_core->vsync)?1:0, (m_core->hsync)?1:0,
 				((m_core->rgb) & 0xF00) >> 4,
 				(m_core->rgb) & 0x0F0,
@@ -98,7 +98,7 @@ public:
 	}
 
 	bool	on_tick(void) {
-		for(int i=0; i<1000; i++)
+		for(int i=0; i<10000; i++)
 			clk_tick();
 		return true;
 	}

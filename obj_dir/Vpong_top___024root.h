@@ -19,6 +19,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         VL_IN8(top_clk,0,0);
         VL_IN8(pix_clk,0,0);
         VL_IN8(reset,0,0);
+        CData/*0:0*/ pong_top__DOT__d_clr;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_flag;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0;
@@ -32,11 +33,11 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*1:0*/ pong_top__DOT__state_reg;
         CData/*1:0*/ pong_top__DOT__state_next;
         CData/*0:0*/ pong_top__DOT__w_vid_on;
+        CData/*0:0*/ pong_top__DOT__miss;
         CData/*1:0*/ pong_top__DOT__hit;
         CData/*1:0*/ pong_top__DOT__d_inc;
         CData/*3:0*/ pong_top__DOT__text_on;
         CData/*0:0*/ pong_top__DOT__gra_still;
-        CData/*0:0*/ pong_top__DOT__d_clr;
         CData/*0:0*/ pong_top__DOT__timer_start;
         CData/*1:0*/ pong_top__DOT__ball_reg;
         CData/*1:0*/ pong_top__DOT__ball_next;
@@ -65,6 +66,13 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__r_dig3;
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__dig2_next;
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__dig3_next;
+        CData/*1:0*/ pong_top__DOT__counter_unit__DOT__d_inc_temp;
+        CData/*4:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt0;
+        CData/*4:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt1;
+        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv0;
+        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv1;
+        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out0;
+        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out1;
         CData/*7:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_datacur;
         CData/*7:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_dataprev;
         CData/*3:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_cnt;
@@ -72,27 +80,24 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*4:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt0;
         CData/*4:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt1;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv0;
+    };
+    struct {
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv1;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out1;
         CData/*1:0*/ __Vdly__pong_top__DOT__state_next;
         CData/*1:0*/ __Vdly__pong_top__DOT__ball_next;
-        CData/*3:0*/ __Vdly__pong_top__DOT__counter_unit__DOT__dig0_next;
-        CData/*3:0*/ __Vdly__pong_top__DOT__counter_unit__DOT__dig1_next;
-        CData/*3:0*/ __Vdly__pong_top__DOT__counter_unit__DOT__dig2_next;
-        CData/*3:0*/ __Vdly__pong_top__DOT__counter_unit__DOT__dig3_next;
-    };
-    struct {
         CData/*3:0*/ __Vdly__pong_top__DOT__keyboard_unit__DOT__keyboard_cnt;
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __VicoFirstIteration;
         CData/*0:0*/ __Vtrigprevexpr___TOP__reset__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__top_clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pix_clk__0;
-        CData/*1:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__d_inc__0;
+        CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0;
+        CData/*0:0*/ __Vtrigprevexpr_h9f25dfcb__0;
+        CData/*0:0*/ __Vtrigprevexpr_h9f21511c__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0;
-        CData/*0:0*/ __VactDidInit;
         CData/*0:0*/ __VactContinue;
         VL_OUT16(rgb,11,0);
         SData/*11:0*/ pong_top__DOT__text_rgb;
@@ -113,13 +118,15 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         SData/*9:0*/ pong_top__DOT__graph_unit__DOT__x_delta_next;
         SData/*9:0*/ pong_top__DOT__graph_unit__DOT__y_delta_reg;
         SData/*9:0*/ pong_top__DOT__graph_unit__DOT__y_delta_next;
+        SData/*9:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__x_delta_next;
+        SData/*9:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__y_delta_next;
         IData/*31:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_keycode;
         IData/*31:0*/ __VactIterCount;
     };
     VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;
-    VlTriggerVec<8> __VactTriggered;
-    VlTriggerVec<8> __VnbaTriggered;
+    VlTriggerVec<9> __VactTriggered;
+    VlTriggerVec<9> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vpong_top__Syms* const vlSymsp;
