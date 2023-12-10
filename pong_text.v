@@ -45,45 +45,50 @@ module pong_text(
    // ---------------------------------------------------------------------------
    // score region
    // - display two-digit score and ball # on top left
-   // - scale to 16(x) by 32(y) text size
+   // - scale to 16(width) by 32(height) text size
    // - line 1, 16 chars: "Score: dd Ball: d"
    // ---------------------------------------------------------------------------
-   assign score_on = (y >= 32) && (y < 64) && (x[9:4] <= 6'h1F);     // Render score if 32 <= y < 64 and x < 496 == 01 1111 ----
+   assign score_on = (y >= 32) && (y < 64) && (x > 0) && (x < 640);     // Render score if 32 <= y < 64 and x < 01 1111 xxxx == 496
    //assign score_on = (y[9:5] == 0) && (x[9:4] < 16);
    assign row_addr_s = y[4:1];          // 4-bit row address for ASCII ROM
    assign bit_addr_s = x[3:1];          // 3-bit bit address for ASCII ROM
    always @*
-    case(x[8:4])                        //      -1 1111 ---- 
-        5'h0 : char_addr_s = 7'h53;     // S    
-        5'h1 : char_addr_s = 7'h43;     // C
-        5'h2 : char_addr_s = 7'h4F;     // O
-        5'h3 : char_addr_s = 7'h52;     // R
-        5'h4 : char_addr_s = 7'h45;     // E
-        5'h5 : char_addr_s = 7'h00;     // 
-        5'h6 : char_addr_s = 7'h4C;     // L
-        5'h7 : char_addr_s = 7'h3A;     // :
-        5'h8 : char_addr_s = {3'h3, dig1};    // tens digit // 3'h3 is the start of the digits in the ASCII ROM
-        5'h9 : char_addr_s = {3'h3, dig0};    // ones digit
-        5'hA : char_addr_s = 7'h00;     //
-        5'hB : char_addr_s = 7'h00;     //
-        5'hC : char_addr_s = 7'h42;     // B
-        5'hD : char_addr_s = 7'h41;     // A
-        5'hE : char_addr_s = 7'h4c;     // L
-        5'hF : char_addr_s = 7'h4c;     // L
-        5'h10 : char_addr_s = 7'h3A;    // :
-        5'h12 : char_addr_s = {5'b01100, ball};
-        5'h13 : char_addr_s = 7'h00;     //
-        5'h14 : char_addr_s = 7'h00;     //
-        5'h15 : char_addr_s = 7'h53;     // S
-        5'h16 : char_addr_s = 7'h43;     // C
-        5'h17 : char_addr_s = 7'h4F;     // O
-        5'h18 : char_addr_s = 7'h52;     // R
-        5'h19 : char_addr_s = 7'h45;     // E
-        5'h1A : char_addr_s = 7'h00;     // 
-        5'h1B : char_addr_s = 7'h52;     // R
-        5'h1C : char_addr_s = 7'h3A;     // :
-        5'h1D : char_addr_s = {3'h3, dig3};    // tens digit
-        5'h1E : char_addr_s = {3'h3, dig2};    // ones digit
+    case(x[9:4])
+        6'h0 : char_addr_s = 7'h00;     // 
+        6'h1 : char_addr_s = 7'h00;     // 
+        6'h2 : char_addr_s = 7'h00;     // 
+        6'h3 : char_addr_s = 7'h00;     // 
+        6'h4 : char_addr_s = 7'h00;     //
+        6'h5 : char_addr_s = 7'h53;     // S
+        6'h6 : char_addr_s = 7'h43;     // C
+        6'h7 : char_addr_s = 7'h4F;     // O
+        6'h8 : char_addr_s = 7'h52;     // R
+        6'h9 : char_addr_s = 7'h45;     // E
+        6'hA : char_addr_s = 7'h00;     // 
+        6'hB : char_addr_s = 7'h4C;     // L
+        6'hC : char_addr_s = 7'h3A;     // :
+        6'hD : char_addr_s = {3'b011, dig1};    // tens digit
+        6'hE : char_addr_s = {3'b011, dig0};    // ones digit
+        6'hF : char_addr_s = 7'h00;     //
+        6'h10 : char_addr_s = 7'h00;     //
+        6'h12 : char_addr_s = 7'h42;     // B
+        6'h13 : char_addr_s = 7'h41;     // A
+        6'h14 : char_addr_s = 7'h4c;     // L
+        6'h15 : char_addr_s = 7'h4c;     // L
+        6'h16 : char_addr_s = 7'h3A;    // :
+        6'h17 : char_addr_s = {5'b01100, ball};
+        6'h18 : char_addr_s = 7'h00;     //
+        6'h19 : char_addr_s = 7'h00;     //
+        6'h1A : char_addr_s = 7'h53;     // S
+        6'h1B : char_addr_s = 7'h43;     // C
+        6'h1C : char_addr_s = 7'h4F;     // O
+        6'h1D : char_addr_s = 7'h52;     // R
+        6'h1E : char_addr_s = 7'h45;     // E
+        6'h1F : char_addr_s = 7'h00;     // 
+        6'h20 : char_addr_s = 7'h52;     // R
+        6'h21 : char_addr_s = 7'h3A;     // :
+        6'h22 : char_addr_s = {3'b011, dig3};    // tens digit
+        6'h23 : char_addr_s = {3'b011, dig2};    // ones digit
         default: char_addr_s = 7'h00;
     endcase
     
