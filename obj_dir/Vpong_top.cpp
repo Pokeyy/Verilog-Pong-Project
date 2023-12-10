@@ -19,6 +19,9 @@ Vpong_top::Vpong_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , key_uart{vlSymsp->TOP.key_uart}
     , hsync{vlSymsp->TOP.hsync}
     , vsync{vlSymsp->TOP.vsync}
+    , ssd_port_cc{vlSymsp->TOP.ssd_port_cc}
+    , ssd_port_an_out{vlSymsp->TOP.ssd_port_an_out}
+    , ssd_port_odp{vlSymsp->TOP.ssd_port_odp}
     , rgb{vlSymsp->TOP.rgb}
     , rootp{&(vlSymsp->TOP)}
 {

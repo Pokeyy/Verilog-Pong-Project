@@ -30,6 +30,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         VL_OUT8(key_uart,0,0);
         VL_OUT8(hsync,0,0);
         VL_OUT8(vsync,0,0);
+        VL_OUT8(ssd_port_cc,6,0);
+        VL_OUT8(ssd_port_an_out,7,0);
+        VL_OUT8(ssd_port_odp,0,0);
         CData/*1:0*/ pong_top__DOT__state_reg;
         CData/*1:0*/ pong_top__DOT__state_next;
         CData/*0:0*/ pong_top__DOT__w_vid_on;
@@ -77,13 +80,14 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*7:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_dataprev;
         CData/*3:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_cnt;
         CData/*3:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp;
+    };
+    struct {
         CData/*4:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt0;
         CData/*4:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt1;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv0;
-    };
-    struct {
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv1;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out1;
+        CData/*3:0*/ pong_top__DOT__keyboard_code_ssd__DOT__digit;
         CData/*1:0*/ __Vdly__pong_top__DOT__state_next;
         CData/*1:0*/ __Vdly__pong_top__DOT__ball_next;
         CData/*3:0*/ __Vdly__pong_top__DOT__keyboard_unit__DOT__keyboard_cnt;
@@ -93,8 +97,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*0:0*/ __Vtrigprevexpr___TOP__top_clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pix_clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0;
-        CData/*0:0*/ __Vtrigprevexpr_h9f25dfcb__0;
-        CData/*0:0*/ __Vtrigprevexpr_h9f21511c__0;
+        CData/*0:0*/ __Vtrigprevexpr_h1fb1ac63__0;
+        CData/*0:0*/ __Vtrigprevexpr_h1fb207f3__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0;
@@ -121,6 +125,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         SData/*9:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__x_delta_next;
         SData/*9:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__y_delta_next;
         IData/*31:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_keycode;
+        IData/*19:0*/ pong_top__DOT__keyboard_code_ssd__DOT__clkdiv;
         IData/*31:0*/ __VactIterCount;
     };
     VlTriggerVec<1> __VstlTriggered;

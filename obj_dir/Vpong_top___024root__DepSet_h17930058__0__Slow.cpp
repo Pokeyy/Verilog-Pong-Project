@@ -51,8 +51,8 @@ VL_ATTR_COLD void Vpong_top___024root___eval_initial(Vpong_top___024root* vlSelf
     vlSelf->__Vtrigprevexpr___TOP__pix_clk__0 = vlSelf->pix_clk;
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0 
         = vlSelf->pong_top__DOT__d_clr;
-    vlSelf->__Vtrigprevexpr_h9f25dfcb__0 = (1U & (IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp));
-    vlSelf->__Vtrigprevexpr_h9f21511c__0 = (1U & ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
+    vlSelf->__Vtrigprevexpr_h1fb1ac63__0 = (1U & (IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp));
+    vlSelf->__Vtrigprevexpr_h1fb207f3__0 = (1U & ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
                                                   >> 1U));
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0;
@@ -69,6 +69,7 @@ VL_ATTR_COLD void Vpong_top___024root___eval_initial__TOP(Vpong_top___024root* v
     vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode = 0U;
     vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_cnt = 0U;
     vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag = 0U;
+    vlSelf->ssd_port_odp = 1U;
 }
 
 VL_ATTR_COLD void Vpong_top___024root___eval_final(Vpong_top___024root* vlSelf) {
@@ -124,11 +125,12 @@ VL_ATTR_COLD void Vpong_top___024root___dump_triggers__stl(Vpong_top___024root* 
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*7:0*/, 8> Vpong_top__ConstPool__TABLE_h743532b2_0;
-extern const VlUnpacked<CData/*6:0*/, 1024> Vpong_top__ConstPool__TABLE_h9708e114_0;
-extern const VlUnpacked<CData/*6:0*/, 1024> Vpong_top__ConstPool__TABLE_ha1aa63cd_0;
-extern const VlUnpacked<CData/*6:0*/, 64> Vpong_top__ConstPool__TABLE_hfbc80823_0;
-extern const VlUnpacked<CData/*7:0*/, 2048> Vpong_top__ConstPool__TABLE_hfb8909a3_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vpong_top__ConstPool__TABLE_h7e11e389_0;
+extern const VlUnpacked<CData/*7:0*/, 8> Vpong_top__ConstPool__TABLE_h5c54b274_0;
+extern const VlUnpacked<CData/*6:0*/, 1024> Vpong_top__ConstPool__TABLE_h2cd958c6_0;
+extern const VlUnpacked<CData/*6:0*/, 1024> Vpong_top__ConstPool__TABLE_h173e33b4_0;
+extern const VlUnpacked<CData/*6:0*/, 64> Vpong_top__ConstPool__TABLE_h8469ba97_0;
+extern const VlUnpacked<CData/*7:0*/, 2048> Vpong_top__ConstPool__TABLE_hdf11a2ce_0;
 
 VL_ATTR_COLD void Vpong_top___024root___stl_sequent__TOP__0(Vpong_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -151,7 +153,17 @@ VL_ATTR_COLD void Vpong_top___024root___stl_sequent__TOP__0(Vpong_top___024root*
     __Vtableidx4 = 0;
     CData/*2:0*/ __Vtableidx5;
     __Vtableidx5 = 0;
+    CData/*3:0*/ __Vtableidx6;
+    __Vtableidx6 = 0;
     // Body
+    vlSelf->ssd_port_an_out = 0xffU;
+    if ((1U & (0xffU >> (7U & (vlSelf->pong_top__DOT__keyboard_code_ssd__DOT__clkdiv 
+                               >> 0x11U))))) {
+        vlSelf->ssd_port_an_out = ((~ ((IData)(1U) 
+                                       << (7U & (vlSelf->pong_top__DOT__keyboard_code_ssd__DOT__clkdiv 
+                                                 >> 0x11U)))) 
+                                   & (IData)(vlSelf->ssd_port_an_out));
+    }
     vlSelf->pong_top__DOT__graph_unit__DOT__t_wall_on 
         = ((0x40U <= (IData)(vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg)) 
            & (0x47U >= (IData)(vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg)));
@@ -184,6 +196,9 @@ VL_ATTR_COLD void Vpong_top___024root___stl_sequent__TOP__0(Vpong_top___024root*
                   <= (IData)(vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg)) 
                  & ((IData)(vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg) 
                     <= (0x3ffU & ((IData)(0x47U) + (IData)(vlSelf->pong_top__DOT__graph_unit__DOT__y_r_pad_reg)))))));
+    __Vtableidx6 = vlSelf->pong_top__DOT__keyboard_code_ssd__DOT__digit;
+    vlSelf->ssd_port_cc = Vpong_top__ConstPool__TABLE_h7e11e389_0
+        [__Vtableidx6];
     vlSelf->pong_top__DOT__timer_unit__DOT__timer_next 
         = ((IData)(vlSelf->pong_top__DOT__timer_start)
             ? 0x7fU : (0x7fU & ((IData)(vlSelf->pong_top__DOT__timer_unit__DOT__timer_reg) 
@@ -192,14 +207,14 @@ VL_ATTR_COLD void Vpong_top___024root___stl_sequent__TOP__0(Vpong_top___024root*
                                    & (0U != (IData)(vlSelf->pong_top__DOT__timer_unit__DOT__timer_reg))))));
     __Vtableidx5 = (7U & ((IData)(vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg) 
                           - (IData)(vlSelf->pong_top__DOT__graph_unit__DOT__y_ball_reg)));
-    pong_top__DOT__graph_unit__DOT__rom_data = Vpong_top__ConstPool__TABLE_h743532b2_0
+    pong_top__DOT__graph_unit__DOT__rom_data = Vpong_top__ConstPool__TABLE_h5c54b274_0
         [__Vtableidx5];
     __Vtableidx1 = vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg;
     vlSelf->pong_top__DOT__text_unit__DOT__char_addr_l 
-        = Vpong_top__ConstPool__TABLE_h9708e114_0[__Vtableidx1];
+        = Vpong_top__ConstPool__TABLE_h2cd958c6_0[__Vtableidx1];
     __Vtableidx3 = vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg;
     vlSelf->pong_top__DOT__text_unit__DOT__char_addr_o 
-        = Vpong_top__ConstPool__TABLE_ha1aa63cd_0[__Vtableidx3];
+        = Vpong_top__ConstPool__TABLE_h173e33b4_0[__Vtableidx3];
     vlSelf->pong_top__DOT____Vcellinp__graph_unit__btn 
         = ((IData)(vlSelf->inputsw) ? (IData)(vlSelf->btn)
             : (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp));
@@ -207,7 +222,7 @@ VL_ATTR_COLD void Vpong_top___024root___stl_sequent__TOP__0(Vpong_top___024root*
                     | (0xfU & ((IData)(vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg) 
                                >> 3U)));
     vlSelf->pong_top__DOT__text_unit__DOT__char_addr_r 
-        = Vpong_top__ConstPool__TABLE_hfbc80823_0[__Vtableidx2];
+        = Vpong_top__ConstPool__TABLE_h8469ba97_0[__Vtableidx2];
     pong_top__DOT__text_unit__DOT__char_addr_s = ((0x100U 
                                                    & (IData)(vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg))
                                                    ? 
@@ -336,7 +351,7 @@ VL_ATTR_COLD void Vpong_top___024root___stl_sequent__TOP__0(Vpong_top___024root*
                                                        : 0x53U)))));
     __Vtableidx4 = vlSelf->pong_top__DOT__text_unit__DOT__ascii_unit__DOT__addr_reg;
     vlSelf->pong_top__DOT__text_unit__DOT__ascii_word 
-        = Vpong_top__ConstPool__TABLE_hfb8909a3_0[__Vtableidx4];
+        = Vpong_top__ConstPool__TABLE_hdf11a2ce_0[__Vtableidx4];
     vlSelf->pong_top__DOT__graph_unit__DOT__refresh_tick 
         = ((0x1e1U == (IData)(vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg)) 
            & (0U == (IData)(vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg)));
@@ -605,104 +620,109 @@ VL_ATTR_COLD void Vpong_top___024root___ctor_var_reset(Vpong_top___024root* vlSe
     Vpong_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vpong_top___024root___ctor_var_reset\n"); );
     // Body
-    vlSelf->top_clk = VL_RAND_RESET_I(1);
-    vlSelf->pix_clk = VL_RAND_RESET_I(1);
-    vlSelf->reset = VL_RAND_RESET_I(1);
-    vlSelf->key_clk = VL_RAND_RESET_I(1);
-    vlSelf->key_data = VL_RAND_RESET_I(1);
-    vlSelf->inputsw = VL_RAND_RESET_I(1);
-    vlSelf->btn = VL_RAND_RESET_I(4);
-    vlSelf->key_uart = VL_RAND_RESET_I(1);
-    vlSelf->hsync = VL_RAND_RESET_I(1);
-    vlSelf->vsync = VL_RAND_RESET_I(1);
-    vlSelf->rgb = VL_RAND_RESET_I(12);
-    vlSelf->pong_top__DOT__state_reg = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT__state_next = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT__w_vid_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__miss = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__hit = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT__d_inc = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT__text_on = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__text_rgb = VL_RAND_RESET_I(12);
-    vlSelf->pong_top__DOT__rgb_reg = VL_RAND_RESET_I(12);
-    vlSelf->pong_top__DOT__rgb_next = VL_RAND_RESET_I(12);
-    vlSelf->pong_top__DOT__gra_still = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__d_clr = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__timer_start = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__ball_reg = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT__ball_next = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT____Vcellinp__graph_unit__btn = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__text_unit__DOT__char_addr = VL_RAND_RESET_I(7);
-    vlSelf->pong_top__DOT__text_unit__DOT__char_addr_l = VL_RAND_RESET_I(7);
-    vlSelf->pong_top__DOT__text_unit__DOT__char_addr_r = VL_RAND_RESET_I(7);
-    vlSelf->pong_top__DOT__text_unit__DOT__char_addr_o = VL_RAND_RESET_I(7);
-    vlSelf->pong_top__DOT__text_unit__DOT__ascii_word = VL_RAND_RESET_I(8);
-    vlSelf->pong_top__DOT__text_unit__DOT__score_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__text_unit__DOT__logo_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__text_unit__DOT__rule_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__text_unit__DOT__ascii_unit__DOT__addr_reg = VL_RAND_RESET_I(11);
-    vlSelf->pong_top__DOT__graph_unit__DOT__refresh_tick = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_l_pad_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_l_pad_next = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_r_pad_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_r_pad_next = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_ball_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__x_ball_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_ball_next = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__x_ball_next = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__x_delta_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__x_delta_next = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_delta_reg = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__y_delta_next = VL_RAND_RESET_I(10);
-    vlSelf->pong_top__DOT__graph_unit__DOT__l_pad_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__graph_unit__DOT__t_wall_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__graph_unit__DOT__b_wall_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__graph_unit__DOT__r_pad_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__graph_unit__DOT__ball_on = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__timer_unit__DOT__timer_reg = VL_RAND_RESET_I(7);
-    vlSelf->pong_top__DOT__timer_unit__DOT__timer_next = VL_RAND_RESET_I(7);
-    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig0 = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig1 = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__dig0_next = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__dig1_next = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig2 = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig3 = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__dig2_next = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__dig3_next = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp = VL_RAND_RESET_I(2);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt0 = VL_RAND_RESET_I(5);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt1 = VL_RAND_RESET_I(5);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv0 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv1 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out0 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out1 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_datacur = VL_RAND_RESET_I(8);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_dataprev = VL_RAND_RESET_I(8);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_cnt = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode = VL_RAND_RESET_I(32);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp = VL_RAND_RESET_I(4);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt0 = VL_RAND_RESET_I(5);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt1 = VL_RAND_RESET_I(5);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv0 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv1 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0 = VL_RAND_RESET_I(1);
-    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out1 = VL_RAND_RESET_I(1);
-    vlSelf->__Vdly__pong_top__DOT__state_next = VL_RAND_RESET_I(2);
-    vlSelf->__Vdly__pong_top__DOT__ball_next = VL_RAND_RESET_I(2);
-    vlSelf->__Vdly__pong_top__DOT__graph_unit__DOT__x_delta_next = VL_RAND_RESET_I(10);
-    vlSelf->__Vdly__pong_top__DOT__graph_unit__DOT__y_delta_next = VL_RAND_RESET_I(10);
-    vlSelf->__Vdly__pong_top__DOT__keyboard_unit__DOT__keyboard_cnt = VL_RAND_RESET_I(4);
-    vlSelf->__Vtrigprevexpr___TOP__reset__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__top_clk__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__pix_clk__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr_h9f25dfcb__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr_h9f21511c__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0 = VL_RAND_RESET_I(1);
+    vlSelf->top_clk = 0;
+    vlSelf->pix_clk = 0;
+    vlSelf->reset = 0;
+    vlSelf->key_clk = 0;
+    vlSelf->key_data = 0;
+    vlSelf->inputsw = 0;
+    vlSelf->btn = 0;
+    vlSelf->key_uart = 0;
+    vlSelf->hsync = 0;
+    vlSelf->vsync = 0;
+    vlSelf->rgb = 0;
+    vlSelf->ssd_port_cc = 0;
+    vlSelf->ssd_port_an_out = 0;
+    vlSelf->ssd_port_odp = 0;
+    vlSelf->pong_top__DOT__state_reg = 0;
+    vlSelf->pong_top__DOT__state_next = 0;
+    vlSelf->pong_top__DOT__w_vid_on = 0;
+    vlSelf->pong_top__DOT__miss = 0;
+    vlSelf->pong_top__DOT__hit = 0;
+    vlSelf->pong_top__DOT__d_inc = 0;
+    vlSelf->pong_top__DOT__text_on = 0;
+    vlSelf->pong_top__DOT__text_rgb = 0;
+    vlSelf->pong_top__DOT__rgb_reg = 0;
+    vlSelf->pong_top__DOT__rgb_next = 0;
+    vlSelf->pong_top__DOT__gra_still = 0;
+    vlSelf->pong_top__DOT__d_clr = 0;
+    vlSelf->pong_top__DOT__timer_start = 0;
+    vlSelf->pong_top__DOT__ball_reg = 0;
+    vlSelf->pong_top__DOT__ball_next = 0;
+    vlSelf->pong_top__DOT____Vcellinp__graph_unit__btn = 0;
+    vlSelf->pong_top__DOT__vga_unit__DOT__h_count_reg = 0;
+    vlSelf->pong_top__DOT__vga_unit__DOT__v_count_reg = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__char_addr = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__char_addr_l = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__char_addr_r = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__char_addr_o = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__ascii_word = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__score_on = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__logo_on = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__rule_on = 0;
+    vlSelf->pong_top__DOT__text_unit__DOT__ascii_unit__DOT__addr_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__refresh_tick = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_l_pad_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_l_pad_next = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_r_pad_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_r_pad_next = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_ball_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__x_ball_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_ball_next = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__x_ball_next = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__x_delta_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__x_delta_next = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_delta_reg = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__y_delta_next = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__l_pad_on = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__t_wall_on = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__b_wall_on = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__r_pad_on = 0;
+    vlSelf->pong_top__DOT__graph_unit__DOT__ball_on = 0;
+    vlSelf->pong_top__DOT__timer_unit__DOT__timer_reg = 0;
+    vlSelf->pong_top__DOT__timer_unit__DOT__timer_next = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig0 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig1 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__dig0_next = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__dig1_next = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig2 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__r_dig3 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__dig2_next = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__dig3_next = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt0 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt1 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv0 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv1 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out0 = 0;
+    vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out1 = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_datacur = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_dataprev = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_cnt = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_keycode = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt0 = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt1 = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv0 = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv1 = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0 = 0;
+    vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out1 = 0;
+    vlSelf->pong_top__DOT__keyboard_code_ssd__DOT__digit = 0;
+    vlSelf->pong_top__DOT__keyboard_code_ssd__DOT__clkdiv = 0;
+    vlSelf->__Vdly__pong_top__DOT__state_next = 0;
+    vlSelf->__Vdly__pong_top__DOT__ball_next = 0;
+    vlSelf->__Vdly__pong_top__DOT__graph_unit__DOT__x_delta_next = 0;
+    vlSelf->__Vdly__pong_top__DOT__graph_unit__DOT__y_delta_next = 0;
+    vlSelf->__Vdly__pong_top__DOT__keyboard_unit__DOT__keyboard_cnt = 0;
+    vlSelf->__Vtrigprevexpr___TOP__reset__0 = 0;
+    vlSelf->__Vtrigprevexpr___TOP__top_clk__0 = 0;
+    vlSelf->__Vtrigprevexpr___TOP__pix_clk__0 = 0;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0 = 0;
+    vlSelf->__Vtrigprevexpr_h1fb1ac63__0 = 0;
+    vlSelf->__Vtrigprevexpr_h1fb207f3__0 = 0;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0 = 0;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0 = 0;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0 = 0;
 }

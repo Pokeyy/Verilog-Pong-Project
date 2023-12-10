@@ -48,7 +48,7 @@ module pong_text(
    // - scale to 16 by 32 text size
    // - line 1, 16 chars: "Score: dd Ball: d"
    // ---------------------------------------------------------------------------
-   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 6'h1F);
+   assign score_on = (y >= 32) && (y < 64) && (x[9:4] < 6'h1F);     // Render score if 32 <= y < 64 and x < 01 1111 xxxx == 496
    //assign score_on = (y[9:5] == 0) && (x[9:4] < 16);
    assign row_addr_s = y[4:1];
    assign bit_addr_s = x[3:1];
@@ -116,9 +116,9 @@ module pong_text(
     assign rule_on = (x[9:7] == 2) && (y[9:6] == 2);
     assign row_addr_r = y[3:0];
     assign bit_addr_r = x[2:0];
-    assign rule_rom_addr = {y[5:4], x[6:3]};
-    always @*
-        case(rule_rom_addr)
+    assign rule_rom_addr = {y[5:4], x[6:3]};// 6-bit address, 2-bits used for y, 4-bits used for x; y[5:4] == 00 00xx 0000, x[9:6] == xx xx00 0000
+    always @*                               // y = 
+        case(rule_rom_addr)                 // Print character based on xy position
             // row 1
             6'h00 : char_addr_r = 7'h52;    // R
             6'h01 : char_addr_r = 7'h55;    // U
@@ -193,8 +193,8 @@ module pong_text(
     // - display "GAME OVER" at center
     // - scale to 32 by 64 text size
     // --------------------------------------------------------------------------
-    assign over_on = (y[9:6] == 3) && (5 <= x[9:5]) && (x[9:5] <= 13);
-    assign row_addr_o = y[5:2];
+    assign over_on = (y[9:6] == 3) && (5 <= x[9:5]) && (x[9:5] <= 13);  // y[9:6] == 3 == 00 1100 0000 == 192, x[9:5] <= 5 <= 00 1010 0000 <= 160, x[9:5] <= 13 <= 01 1010 0000 <= 416
+    assign row_addr_o = y[5:2];                                         // if x and y pos is between these values, then over_on == 1, render the GAME OVER text
     assign bit_addr_o = x[4:2];
     always @*
         case(x[8:5])
@@ -246,10 +246,10 @@ module pong_text(
         end        
     end
     
-    assign text_on = {score_on, logo_on, rule_on, over_on};
-    
-    // ascii ROM interface
-    assign rom_addr = {char_addr, row_addr};
+    assign text_on = {score_on, logo_on, rule_on, over_on};     // score_on: flag to render scores if x and y pos are in position
+                                                                // logo_on:  flag to render PONG logo                           
+    // ascii ROM interface                                      // rule_on:  flag to render rules                               
+    assign rom_addr = {char_addr, row_addr};                    // over_on:  flag to render GAME OVER text                          
     assign ascii_bit = ascii_word[~bit_addr];
       
 endmodule

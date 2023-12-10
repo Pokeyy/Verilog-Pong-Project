@@ -34,6 +34,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top VL_NOT_FINAL : public VerilatedMode
     VL_OUT8(&key_uart,0,0);
     VL_OUT8(&hsync,0,0);
     VL_OUT8(&vsync,0,0);
+    VL_OUT8(&ssd_port_cc,6,0);
+    VL_OUT8(&ssd_port_an_out,7,0);
+    VL_OUT8(&ssd_port_odp,0,0);
     VL_OUT16(&rgb,11,0);
 
     // CELLS

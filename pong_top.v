@@ -20,17 +20,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module pong_top(
-    input top_clk,          // 100MHz
-    input pix_clk,          // 25MHz
-    input reset,            // btnR
-    input key_clk,          // PS2_CLK
-    input key_data,         // PS2_DATA
-    input inputsw,
-    input [3:0] btn,
-    output key_uart,        // UART_RXD_OUT
-    output hsync,           // to VGA Connector
-    output vsync,           // to VGA Connector
-    output [11:0] rgb       // to DAC, to VGA Connector
+    input top_clk,                  // 100MHz
+    input pix_clk,                  // 25MHz
+    input reset,                    // btnR
+    input key_clk,                  // PS2_CLK from keyboard
+    input key_data,                 // PS2_DATA from keyboard
+    input inputsw,                  // Switch between onboard buttons or keyboard input
+    input [3:0] btn,                // Onboard buttons 
+    output key_uart,                // UART_RXD_OUT
+    output hsync,                   // to VGA Connector
+    output vsync,                   // to VGA Connector
+    output [11:0] rgb,              // to VGA Connector
+    output [6:0] ssd_port_cc,       // to SSDs    
+    output [7:0] ssd_port_an_out,   // to SSDs
+    output ssd_port_odp             // to SSDs
     );
     
     // state declarations for 4 states
@@ -40,6 +43,7 @@ module pong_top(
     parameter over    = 2'b11;
            
     // signal declaration
+    // reg showPongText;
     reg [1:0] state_reg, state_next;
     wire [9:0] w_x, w_y;
     wire w_vid_on, graph_on, w_pix_clk, miss;
@@ -52,7 +56,8 @@ module pong_top(
     reg gra_still, d_clr, timer_start;
     wire timer_tick, timer_up;
     reg [1:0] ball_reg, ball_next;
-    wire [3:0] keyboard_key; //[3:2] are left player; [1:0] are right player
+    wire [3:0] keyboard_key;                        //[3:2] are left player; [1:0] are right player
+    wire [31:0] keyboard_code;                      // fed into SEG_7 module 
 
     assign w_pix_clk = pix_clk;
     vga_controller vga_unit(
@@ -114,7 +119,15 @@ module pong_top(
         .keyboard_kdata(key_data),
         .keyboard_uart_rxd(key_uart),
         .keyboard_out(keyboard_key),
-        .keyboard_code()
+        .keyboard_code(keyboard_code)
+    );
+
+    SEG_7 keyboard_code_ssd (
+        .x(keyboard_code),
+        .clk(top_clk),
+        .seg(ssd_port_cc),
+        .an(ssd_port_an_out),
+        .dp(ssd_port_odp)
     );
         
     // FSMD state and registers
@@ -139,6 +152,8 @@ module pong_top(
             rgb_reg <= rgb_next;
     end
     
+
+    // initial showPongText = 1; // Show PONG text at beginning of first game, turn off for the rest of the game
     // FSMD next state logic
     always @ (posedge top_clk) begin
         gra_still <= 1'b1;
@@ -153,7 +168,8 @@ module pong_top(
                 ball_next <= 2'b11;          // three balls
                 d_clr <= 1'b1;               // clear score
                 
-                if((keyboard_key[1:0] != 0) || (keyboard_key[3:2] != 0) || btn[3:2] != 0 || btn[1:0] != 0) begin      // button pressed
+                if(((inputsw ? btn[1:0] : keyboard_key[1:0]) != 0) || ((inputsw ? btn[3:2] : keyboard_key[3:2]) != 0)) begin      // button pressed
+                    // showPongText <= 0;
                     state_next <= play;
                     ball_next <= ball_reg - 1;    
                 end
@@ -180,7 +196,7 @@ module pong_top(
             end
             
             newball: // wait for 2 sec and until button pressed
-            if(timer_up && ((keyboard_key[1:0] != 0) || (keyboard_key[3:2] != 0) || btn[3:2] != 0 || btn[1:0] != 0))
+            if(timer_up && (((inputsw ? btn[1:0] : keyboard_key[1:0]) != 0) || ((inputsw ? btn[3:2] : keyboard_key[3:2]) != 0)))
                 state_next <= play;
                 
             over:   // wait 2 sec to display game over
@@ -190,19 +206,20 @@ module pong_top(
     end
     
     // rgb multiplexing
+    // text_on = {score_on, logo_on, rule_on, over_on}
     always @ (posedge w_pix_clk)
         if(~w_vid_on)
             rgb_next <= 12'h000; // blank
         
         else
             if(text_on[3] || ((state_reg == newgame) && text_on[1]) || ((state_reg == over) && text_on[0]))
-                rgb_next <= text_rgb;    // colors in pong_text
+                rgb_next <= text_rgb;    // Show scores text, rules text on new game, game over text
             
             else if(graph_on)
                 rgb_next <= graph_rgb;   // colors in graph_text
                 
-            else if(text_on[2])
-                rgb_next <= text_rgb;    // colors in pong_text
+            else if(text_on[2] && (state_reg == newgame))
+                rgb_next <= text_rgb;    // PONG logo
                 
             else
                 rgb_next <= 12'h000;     // black background

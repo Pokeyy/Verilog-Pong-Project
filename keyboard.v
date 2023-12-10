@@ -95,23 +95,34 @@ module keyboard(
     
     always@(posedge keyboard_clk)                               
     begin
-        //up arrow
-        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h75)
+        //numpad 8
+        // if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h75)   // Keycode for numpad 8 (right player up)
+        //     keyboard_out_tmp[0] <= 1;
+        // else if(keyboard_keycode[15:0] == 16'hF075)                             // Keycode for numpad 8 release    
+        //     keyboard_out_tmp[0] <= 0;
+        // //numpad 5
+        // if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h73)   // Keycode for numpad 5 (right player down)
+        //     keyboard_out_tmp[1] <= 1;   
+        // else if(keyboard_keycode[15:0] == 16'hF073)                             // Keycode for numpad 5 release
+        //     keyboard_out_tmp[1] <= 0;
+
+        if((keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h75) || keyboard_keycode[15:0] == 16'hE075)   // Keycode for numpad 8 or up arrow (right player up)
             keyboard_out_tmp[0] <= 1;
-        else if(keyboard_keycode[23:0] == 24'hE0F075)           // Keycode for up arrow release
+        else if(keyboard_keycode[15:0] == 16'hF075)                             // Keycode for numpad 8 or up arrow release    
             keyboard_out_tmp[0] <= 0;
-        //down arrow
-        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h73)
-            keyboard_out_tmp[1] <= 1;
-        else if(keyboard_keycode[15:0] == 16'hF073)
+        //numpad 5
+        if((keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h73) || keyboard_keycode[15:0] == 16'hE072)   // Keycode for numpad 5 or down arrow (right player down)
+            keyboard_out_tmp[1] <= 1;   
+        else if(keyboard_keycode[15:0] == 16'hF073 || keyboard_keycode[15:0] == 16'hF072)                             // Keycode for numpad 5 or down arrow release
             keyboard_out_tmp[1] <= 0;
+
         //w
-        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1D)   // If F0 release key signal is not found and W key is pressed
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1D)   // If F0 release key signal is not found and W key is pressed (left player up)
             keyboard_out_tmp[2] <= 1;
         else if(keyboard_keycode[15:0] == 16'hF01D)                             // W key released
             keyboard_out_tmp[2] <= 0;
         //s
-        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1B)   // If F0 release key signal is not found and S key is pressed
+        if(keyboard_keycode[15:8] != 8'hF0 && keyboard_keycode[7:0] == 8'h1B)   // If F0 release key signal is not found and S key is pressed (left player down)
             keyboard_out_tmp[3] <= 1;
         else if(keyboard_keycode[15:0] == 16'hF01B)                             // S key released
             keyboard_out_tmp[3] <= 0;
