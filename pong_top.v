@@ -53,7 +53,7 @@ module pong_top(
     wire [11:0] graph_rgb, text_rgb;
     reg [11:0] rgb_reg, rgb_next;
     wire [3:0] dig0, dig1, dig2, dig3;              // 4-bit BCD for score counters; {dig1, dig0} is left, {dig3, dig2} is right
-    reg gra_still, d_clr, timer_start;              // gra_still: 1 = no animation/movement, 0 = allow animation/movement
+    reg gra_still, d_clr, timer_start;
     wire timer_tick, timer_up;
     reg [1:0] ball_reg, ball_next;
     wire [3:0] keyboard_key;                        //[3:2] are left player; [1:0] are right player
