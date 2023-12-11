@@ -19,6 +19,31 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+/*
+For each ASCII character in the ascii_rom.v module, it utilizes 8-bit wide registers to represent 8-pixel wide
+characters. Then each character uses 16 of those 8-pixel wide registers to form a height of 16-pixels. I
+
+Each character can be scaled up in multiples of the base dimension.
+For example the width can be 8 pixels, 16, 24, etc.
+The height can be 16, 32, 48, 64, etc.
+
+In order to use the characters a variable for different parts of text is used to determine where and when
+there should be text. 
+
+For example score_on is used for the scoring and this variable should only be true for the desired 
+coordinates of text. For the scoring it only outputs/draws text between y-pixel counts between 32 and 61, and x-pixel counts
+of 1 and 639 
+
+Case statement is used based on the x and y value the display is at when drawing that would be shown
+on the screen. The case statements and what the text region variable requirements for being true are what 
+scales the characters as manipulating these force a scaled amount of pixels to be drawn as the regsisters are based on 
+powers of 2^n.
+
+Color is determined by a 12-bit value where the first 4-bit value represents red, then the next 4 is green,
+then blue. 
+*/
+
+
 module pong_text(
     input clk,
     input [1:0] ball,
