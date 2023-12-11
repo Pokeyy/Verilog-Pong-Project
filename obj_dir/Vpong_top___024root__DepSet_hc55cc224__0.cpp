@@ -44,28 +44,44 @@ void Vpong_top___024root___eval_triggers__act(Vpong_top___024root* vlSelf) {
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__top_clk__0))));
     vlSelf->__VactTriggered.set(3U, ((IData)(vlSelf->pix_clk) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pix_clk__0))));
-    vlSelf->__VactTriggered.set(4U, (1U & (((IData)(vlSelf->pong_top__DOT__d_clr) 
+    vlSelf->__VactTriggered.set(4U, (1U & (((((IData)(vlSelf->pong_top__DOT__gra_still) 
+                                              != (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__gra_still__0)) 
+                                             | ((IData)(vlSelf->pong_top__DOT__graph_unit__DOT__wall_bounce_flag) 
+                                                & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__graph_unit__DOT__wall_bounce_flag__0)))) 
+                                            | ((IData)(vlSelf->pong_top__DOT__hit) 
+                                               & (~ (IData)(vlSelf->__Vtrigprevexpr_h0125c103__0)))) 
+                                           | (((IData)(vlSelf->pong_top__DOT__hit) 
+                                               >> 1U) 
+                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h011873f4__0))))));
+    vlSelf->__VactTriggered.set(5U, (1U & (((IData)(vlSelf->pong_top__DOT__d_clr) 
                                             & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0))) 
                                            | ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
-                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h1fb1ac63__0))))));
-    vlSelf->__VactTriggered.set(5U, (1U & (((IData)(vlSelf->pong_top__DOT__d_clr) 
+                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h9f25dfcb__0))))));
+    vlSelf->__VactTriggered.set(6U, (1U & (((IData)(vlSelf->pong_top__DOT__d_clr) 
                                             & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0))) 
                                            | (((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
                                                >> 1U) 
-                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h1fb207f3__0))))));
-    vlSelf->__VactTriggered.set(6U, ((~ (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0)) 
+                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h9f21511c__0))))));
+    vlSelf->__VactTriggered.set(7U, ((~ (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0)) 
                                      & (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0)));
-    vlSelf->__VactTriggered.set(7U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag) 
+    vlSelf->__VactTriggered.set(8U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0))));
-    vlSelf->__VactTriggered.set(8U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp) 
+    vlSelf->__VactTriggered.set(9U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0))));
     vlSelf->__Vtrigprevexpr___TOP__reset__0 = vlSelf->reset;
     vlSelf->__Vtrigprevexpr___TOP__top_clk__0 = vlSelf->top_clk;
     vlSelf->__Vtrigprevexpr___TOP__pix_clk__0 = vlSelf->pix_clk;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__gra_still__0 
+        = vlSelf->pong_top__DOT__gra_still;
+    vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__graph_unit__DOT__wall_bounce_flag__0 
+        = vlSelf->pong_top__DOT__graph_unit__DOT__wall_bounce_flag;
+    vlSelf->__Vtrigprevexpr_h0125c103__0 = (1U & (IData)(vlSelf->pong_top__DOT__hit));
+    vlSelf->__Vtrigprevexpr_h011873f4__0 = (1U & ((IData)(vlSelf->pong_top__DOT__hit) 
+                                                  >> 1U));
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0 
         = vlSelf->pong_top__DOT__d_clr;
-    vlSelf->__Vtrigprevexpr_h1fb1ac63__0 = (1U & (IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp));
-    vlSelf->__Vtrigprevexpr_h1fb207f3__0 = (1U & ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
+    vlSelf->__Vtrigprevexpr_h9f25dfcb__0 = (1U & (IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp));
+    vlSelf->__Vtrigprevexpr_h9f21511c__0 = (1U & ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
                                                   >> 1U));
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0;
@@ -73,6 +89,10 @@ void Vpong_top___024root___eval_triggers__act(Vpong_top___024root* vlSelf) {
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag;
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp;
+    if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VactDidInit))))) {
+        vlSelf->__VactDidInit = 1U;
+        vlSelf->__VactTriggered.set(4U, 1U);
+    }
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {
         Vpong_top___024root___dump_triggers__act(vlSelf);
