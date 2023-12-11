@@ -1,6 +1,8 @@
 # Verilog-Pong-Project
 Verilog 2-Player Pong Group Project for Verilog Class
+
 Pong, ascii, score, timer, debounce and vga modules authored by FPGADude found at:
+
 https://github.com/FPGADude/Digital-Design/tree/main/FPGA%20Projects/VGA%20Projects/Pong%20pt2 
 
 Modules modified by: Pokeyy, temoc024, morkeleb1, and Buyingbf
