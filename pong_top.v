@@ -27,7 +27,6 @@ module pong_top(
     input key_data,                 // PS2_DATA from keyboard
     input inputsw,                  // Switch between onboard buttons or keyboard input
     input [3:0] btn,                // Onboard buttons 
-    output key_uart,                // UART_RXD_OUT
     output hsync,                   // to VGA Connector
     output vsync,                   // to VGA Connector
     output [11:0] rgb,              // to VGA Connector
@@ -117,7 +116,7 @@ module pong_top(
         .keyboard_clk(top_clk),
         .keyboard_kclk(key_clk),
         .keyboard_kdata(key_data),
-        .keyboard_uart_rxd(key_uart),
+        .keyboard_uart_rxd(),
         .keyboard_out(keyboard_key),
         .keyboard_code(keyboard_code)
     );

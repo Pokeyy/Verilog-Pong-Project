@@ -33,19 +33,21 @@ module timer(
     
     // register control
     always @(posedge clk or posedge reset)
+    begin
         if(reset)
             timer_reg <= 7'b1111111;
         else
             timer_reg <= timer_next;
+    end
     
     // next state logic
-    always @*
+    always @ (posedge timer_tick or posedge timer_start)
+    begin
         if(timer_start)
-            timer_next = 7'b1111111;
-        else if((timer_tick) && (timer_reg != 0))
-            timer_next = timer_reg - 1;
+            timer_next <= 7'b1111111;
         else
-            timer_next = timer_reg;
+            timer_next <= timer_reg - 1;
+    end
             
     // output
     assign timer_up = (timer_reg == 0);
