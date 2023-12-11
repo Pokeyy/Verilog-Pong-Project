@@ -46,13 +46,13 @@ void Vpong_top___024root___eval_triggers__act(Vpong_top___024root* vlSelf) {
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pix_clk__0))));
     vlSelf->__VactTriggered.set(4U, (1U & (((IData)(vlSelf->pong_top__DOT__d_clr) 
                                             & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0))) 
-                                           | ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
-                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h1fb1ac63__0))))));
+                                           | ((IData)(vlSelf->pong_top__DOT__miss) 
+                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h2f183644__0))))));
     vlSelf->__VactTriggered.set(5U, (1U & (((IData)(vlSelf->pong_top__DOT__d_clr) 
                                             & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0))) 
-                                           | (((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
+                                           | (((IData)(vlSelf->pong_top__DOT__miss) 
                                                >> 1U) 
-                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h1fb207f3__0))))));
+                                              & (~ (IData)(vlSelf->__Vtrigprevexpr_h2f17e793__0))))));
     vlSelf->__VactTriggered.set(6U, ((~ (IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0)) 
                                      & (IData)(vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0)));
     vlSelf->__VactTriggered.set(7U, ((IData)(vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_flag) 
@@ -64,8 +64,8 @@ void Vpong_top___024root___eval_triggers__act(Vpong_top___024root* vlSelf) {
     vlSelf->__Vtrigprevexpr___TOP__pix_clk__0 = vlSelf->pix_clk;
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0 
         = vlSelf->pong_top__DOT__d_clr;
-    vlSelf->__Vtrigprevexpr_h1fb1ac63__0 = (1U & (IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp));
-    vlSelf->__Vtrigprevexpr_h1fb207f3__0 = (1U & ((IData)(vlSelf->pong_top__DOT__counter_unit__DOT__d_inc_temp) 
+    vlSelf->__Vtrigprevexpr_h2f183644__0 = (1U & (IData)(vlSelf->pong_top__DOT__miss));
+    vlSelf->__Vtrigprevexpr_h2f17e793__0 = (1U & ((IData)(vlSelf->pong_top__DOT__miss) 
                                                   >> 1U));
     vlSelf->__Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0 
         = vlSelf->pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0;

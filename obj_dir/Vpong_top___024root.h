@@ -36,9 +36,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*1:0*/ pong_top__DOT__state_reg;
         CData/*1:0*/ pong_top__DOT__state_next;
         CData/*0:0*/ pong_top__DOT__w_vid_on;
-        CData/*0:0*/ pong_top__DOT__miss;
-        CData/*1:0*/ pong_top__DOT__hit;
-        CData/*1:0*/ pong_top__DOT__d_inc;
+        CData/*1:0*/ pong_top__DOT__miss;
         CData/*3:0*/ pong_top__DOT__text_on;
         CData/*0:0*/ pong_top__DOT__gra_still;
         CData/*0:0*/ pong_top__DOT__timer_start;
@@ -59,6 +57,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*0:0*/ pong_top__DOT__graph_unit__DOT__b_wall_on;
         CData/*0:0*/ pong_top__DOT__graph_unit__DOT__r_pad_on;
         CData/*0:0*/ pong_top__DOT__graph_unit__DOT__ball_on;
+        CData/*1:0*/ pong_top__DOT__graph_unit__DOT__ball_rng_start;
         CData/*6:0*/ pong_top__DOT__timer_unit__DOT__timer_reg;
         CData/*6:0*/ pong_top__DOT__timer_unit__DOT__timer_next;
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__r_dig0;
@@ -69,27 +68,21 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__r_dig3;
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__dig2_next;
         CData/*3:0*/ pong_top__DOT__counter_unit__DOT__dig3_next;
-        CData/*1:0*/ pong_top__DOT__counter_unit__DOT__d_inc_temp;
-        CData/*4:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt0;
-        CData/*4:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__cnt1;
-        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv0;
-        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__iv1;
-        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out0;
-        CData/*0:0*/ pong_top__DOT__counter_unit__DOT__d_inc_debounce__DOT__out1;
         CData/*7:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_datacur;
         CData/*7:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_dataprev;
         CData/*3:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_cnt;
         CData/*3:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_out_tmp;
-    };
-    struct {
         CData/*4:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt0;
         CData/*4:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__cnt1;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv0;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__iv1;
         CData/*0:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out1;
         CData/*3:0*/ pong_top__DOT__keyboard_code_ssd__DOT__digit;
-        CData/*1:0*/ __Vdly__pong_top__DOT__state_next;
+        CData/*1:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__ball_rng_start;
         CData/*1:0*/ __Vdly__pong_top__DOT__ball_next;
+    };
+    struct {
+        CData/*1:0*/ __Vdly__pong_top__DOT__state_next;
         CData/*3:0*/ __Vdly__pong_top__DOT__keyboard_unit__DOT__keyboard_cnt;
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __VicoFirstIteration;
@@ -97,8 +90,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         CData/*0:0*/ __Vtrigprevexpr___TOP__top_clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pix_clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__d_clr__0;
-        CData/*0:0*/ __Vtrigprevexpr_h1fb1ac63__0;
-        CData/*0:0*/ __Vtrigprevexpr_h1fb207f3__0;
+        CData/*0:0*/ __Vtrigprevexpr_h2f183644__0;
+        CData/*0:0*/ __Vtrigprevexpr_h2f17e793__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_debounce__DOT__out0__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_flag__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__pong_top__DOT__keyboard_unit__DOT__keyboard_clk_tmp__0;
@@ -122,8 +115,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vpong_top___024root final : public VerilatedM
         SData/*9:0*/ pong_top__DOT__graph_unit__DOT__x_delta_next;
         SData/*9:0*/ pong_top__DOT__graph_unit__DOT__y_delta_reg;
         SData/*9:0*/ pong_top__DOT__graph_unit__DOT__y_delta_next;
-        SData/*9:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__x_delta_next;
-        SData/*9:0*/ __Vdly__pong_top__DOT__graph_unit__DOT__y_delta_next;
         IData/*31:0*/ pong_top__DOT__keyboard_unit__DOT__keyboard_keycode;
         IData/*19:0*/ pong_top__DOT__keyboard_code_ssd__DOT__clkdiv;
         IData/*31:0*/ __VactIterCount;

@@ -34,14 +34,14 @@ module score_counter(
     reg [3:0] r_dig0 = 0, r_dig1 = 0, dig0_next = 0, dig1_next = 0; // transistion state 
     reg [3:0] r_dig2 = 0, r_dig3 = 0, dig2_next = 0, dig3_next = 0; // transistion state 
 
-    wire [1:0] d_inc_temp;
-    debounce d_inc_debounce (
-        .clk(clk),
-        .btn_in_1(d_inc[0]),
-        .btn_in_2(d_inc[1]),
-        .btn_out_1(d_inc_temp[0]),
-        .btn_out_2(d_inc_temp[1])
-    );
+    // wire [1:0] d_inc_temp;
+    // debounce d_inc_debounce (
+    //     .clk(clk),
+    //     .btn_in_1(d_inc[0]),
+    //     .btn_in_2(d_inc[1]),
+    //     .btn_out_1(d_inc_temp[0]),
+    //     .btn_out_2(d_inc_temp[1])
+    // );
 
 
     //register control
@@ -64,7 +64,7 @@ module score_counter(
         end        
     end
     
-    always @ (posedge d_inc_temp[0] or posedge d_clr)
+    always @ (posedge d_inc[0] or posedge d_clr)
     begin
         if (d_clr)
         begin
@@ -87,7 +87,7 @@ module score_counter(
         end
     end
     
-    always @ (posedge d_inc_temp[1] or posedge d_clr)
+    always @ (posedge d_inc[1] or posedge d_clr)
     begin
         if (d_clr)
         begin

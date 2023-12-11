@@ -28,14 +28,14 @@ module pong_graph(
     input [9:0] x,
     input [9:0] y,
     output graph_on,
-    output reg miss,   // ball hit or miss
+    output reg [1:0] miss,   // ball hit or miss
     output reg [1:0] hit,
     output reg [11:0] graph_rgb
     );
     parameter SPEED_MULT = 1;
 
     // maximum x, y values in display area
-    parameter X_MIN = 1;
+    parameter X_MIN = 30;
     parameter X_MAX = 639;
     parameter Y_MAX = 479;
     
@@ -113,6 +113,7 @@ module pong_graph(
             y_delta_reg <= 10'h002;
         end
         else begin
+            ball_rng_start <= ball_rng_start + 1;
             y_l_pad_reg <= y_l_pad_next;
             y_r_pad_reg <= y_r_pad_next;
             x_ball_reg <= x_ball_next;
@@ -212,16 +213,18 @@ module pong_graph(
     assign y_ball_next = (gra_still) ? Y_MAX / 2 :
                          (refresh_tick) ? y_ball_reg + y_delta_reg : y_ball_reg;
     
+    reg [1:0] ball_rng_start;
+    initial ball_rng_start = 2'b00;
     // change ball direction after collision
     always @ (posedge clk) begin
         hit <= 2'b00;
-        miss <= 1'b0;
-        x_delta_next <= x_delta_reg;
-        y_delta_next <= y_delta_reg;
+        miss <= 2'b00;
+        // x_delta_next <= x_delta_reg;
+        // y_delta_next <= y_delta_reg;
         
         if(gra_still) begin
-            x_delta_next <= BALL_VELOCITY_NEG;
-            y_delta_next <= BALL_VELOCITY_POS;
+            x_delta_next <= ((ball_rng_start[0]) ? BALL_VELOCITY_POS : BALL_VELOCITY_NEG);
+            y_delta_next <= ((ball_rng_start[1]) ? BALL_VELOCITY_POS : BALL_VELOCITY_NEG);
         end
         
         else if(y_ball_t < T_WALL_B)                   // reach top
@@ -245,8 +248,10 @@ module pong_graph(
                     hit[1] <= 1'b1;         
         end
         
-        else if((x_ball_r > X_MAX) || (x_ball_r < X_MIN))           //miss at left and right side of the screens, past the paddles
-            miss <= 1'b1;
+        else if((x_ball_r > X_MAX))           //miss at left and right side of the screens, past the paddles
+            miss[0] <= 1'b1;
+        else if((x_ball_r < X_MIN))
+            miss[1] <= 1'b1;
     end                    
     
     // output status signal for graphics 
